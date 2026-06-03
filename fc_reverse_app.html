@@ -843,13 +843,14 @@ function renderPlayerList(filter='') {
       <div class="player-name" style="${d.absent?'color:var(--red);':''}">${p.name}</div>
       <button class="cell-btn att ${d.att&&!d.absent?'on':''}" onclick="toggleAtt(${p.no})">${d.att&&!d.absent?'✓':''}</button>
       <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
-        <div class="late-counter">
+        <div class="late-counter" style="opacity:${d.absent?'0.3':'1'};pointer-events:${d.absent?'none':'auto'};">
           <button class="late-adj" onclick="adjLate(${p.no},-1)">−</button>
           <span class="late-val" style="color:${d.late>0?'var(--gold)':'var(--gray2)'}">${d.late||'0'}</span>
           <button class="late-adj" onclick="adjLate(${p.no},1)">+</button>
         </div>
-        <button class="cell-btn absent-btn ${d.absent?'on':''}" onclick="toggleAbsent(${p.no})" style="width:44px;height:22px;font-size:10px;margin:0;">
-          ${d.absent?'무단':'무단'}
+        <button class="cell-btn absent-btn ${d.absent?'on':''}" onclick="toggleAbsent(${p.no})"
+          style="width:44px;height:22px;font-size:10px;margin:0;opacity:${d.late>0?'0.3':'1'};pointer-events:${d.late>0?'none':'auto'};">
+          무단
         </button>
       </div>
       <button class="counter-btn ${d.goals>0?'has-goal':''}" onclick="addGoal(${p.no})" oncontextmenu="subGoal(event,${p.no})">${d.goals||'—'}</button>
@@ -875,11 +876,16 @@ function updateMomDisplay() {
 function filterPlayers() { renderPlayerList(document.getElementById('player-search').value.trim()); }
 function toggleAtt(no) { if(curGame.players[no].absent) return; curGame.players[no].att = !curGame.players[no].att; renderPlayerList(document.getElementById('player-search').value); }
 function toggleAbsent(no) {
+  if(curGame.players[no].late > 0) return; // 지각 있으면 무단 선택 불가
   curGame.players[no].absent = !curGame.players[no].absent;
   if(curGame.players[no].absent) curGame.players[no].att = false;
   renderPlayerList(document.getElementById('player-search').value);
 }
-function adjLate(no,d) { curGame.players[no].late=Math.max(0,(curGame.players[no].late||0)+d); renderPlayerList(document.getElementById('player-search').value); }
+function adjLate(no,d) {
+  if(curGame.players[no].absent) return; // 무단 켜져 있으면 지각 조정 불가
+  curGame.players[no].late=Math.max(0,(curGame.players[no].late||0)+d);
+  renderPlayerList(document.getElementById('player-search').value);
+}
 function addGoal(no)    { curGame.players[no].goals++;   renderPlayerList(document.getElementById('player-search').value); }
 function subGoal(e,no)  { e.preventDefault(); curGame.players[no].goals=Math.max(0,curGame.players[no].goals-1); renderPlayerList(document.getElementById('player-search').value); }
 function addAssist(no)  { curGame.players[no].assists++; renderPlayerList(document.getElementById('player-search').value); }
