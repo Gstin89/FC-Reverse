@@ -3,62 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>FC리버스 | 시즌 현황</title>
+<title>FC리버스 | 팀 현황</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
 :root {
-  --navy:"0D1B2A"; --blue:#1B4F8A; --sky:#00A8E8; --green:#00C46A;
+  --navy:#0D1B2A; --blue:#1B4F8A; --sky:#00A8E8; --green:#00C46A;
   --red:#E84545; --gold:#F5A623; --white:#FFFFFF;
   --gray0:#F4F6F9; --gray1:#E2E8F0; --gray2:#94A3B8; --gray3:#475569;
-  --navy:#0D1B2A; --bg:#F0F4F8; --card:#FFFFFF;
+  --card:#FFFFFF; --bg:#F0F4F8;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--navy);min-height:100vh;font-size:14px;}
-
-/* ── 헤더 */
-.header{background:var(--navy);padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.3);}
-.logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;color:#fff;display:flex;align-items:center;gap:6px;}
+.header{background:var(--navy);padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.3);}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;color:var(--white);display:flex;align-items:center;gap:6px;}
 .logo span{color:var(--sky);}
-.view-badge{font-size:10px;font-weight:700;background:rgba(0,168,232,0.2);color:var(--sky);padding:3px 8px;border-radius:20px;letter-spacing:1px;}
-
-/* ── 탭 */
-.tab-bar{background:#fff;display:flex;border-bottom:1px solid var(--gray1);position:sticky;top:56px;z-index:99;}
-.tab{flex:1;padding:12px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;border:none;background:none;cursor:pointer;font-size:10px;font-weight:500;color:var(--gray2);border-bottom:2px solid transparent;transition:all 0.2s;font-family:'Noto Sans KR',sans-serif;}
+.badge-view{background:rgba(0,168,232,.2);color:var(--sky);font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;letter-spacing:1px;}
+.tab-bar{background:var(--white);display:flex;border-bottom:1px solid var(--gray1);position:sticky;top:56px;z-index:99;}
+.tab{flex:1;padding:10px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;border:none;background:none;cursor:pointer;font-size:10px;font-weight:500;color:var(--gray2);border-bottom:2px solid transparent;transition:all .2s;font-family:'Noto Sans KR',sans-serif;}
 .tab.active{color:var(--blue);border-bottom-color:var(--sky);}
-.tab-icon{font-size:20px;}
-
-/* ── 페이지 */
+.tab-icon{font-size:18px;}
 .page{display:none;padding:16px;}
 .page.active{display:block;}
-
-/* ── 카드 */
-.card{background:var(--card);border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,0.06);}
+.card{background:var(--card);border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.06);}
 .card-title{font-size:12px;font-weight:700;color:var(--gray2);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
 .card-title::before{content:'';width:3px;height:14px;background:var(--sky);border-radius:2px;}
-.section-title{font-size:18px;font-weight:900;color:var(--navy);margin-bottom:14px;}
-
-/* ── 대시보드 */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+.stat-box{background:var(--white);border-radius:14px;padding:14px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+.stat-val{font-size:30px;font-weight:900;font-family:'Bebas Neue',sans-serif;line-height:1;margin-bottom:4px;}
+.stat-label{font-size:11px;color:var(--gray2);font-weight:500;}
 .wdl{display:flex;gap:8px;margin-bottom:12px;}
 .wdl-item{flex:1;border-radius:12px;padding:12px;text-align:center;}
 .wdl-item.w{background:#E8FDF2;} .wdl-item.d{background:#FEF9EC;} .wdl-item.l{background:#FEF2F2;}
 .wdl-val{font-size:32px;font-weight:900;font-family:'Bebas Neue',sans-serif;line-height:1;}
 .wdl-item.w .wdl-val{color:var(--green);} .wdl-item.d .wdl-val{color:var(--gold);} .wdl-item.l .wdl-val{color:var(--red);}
 .wdl-label{font-size:11px;font-weight:700;margin-top:4px;}
-.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
-.stat-box{background:#fff;border-radius:14px;padding:14px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.06);}
-.stat-val{font-size:30px;font-weight:900;font-family:'Bebas Neue',sans-serif;line-height:1;margin-bottom:4px;}
-.stat-label{font-size:11px;color:var(--gray2);font-weight:500;}
 .ranking-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--gray0);}
 .ranking-row:last-child{border-bottom:none;}
 .rank-no{font-size:13px;font-weight:900;color:var(--gray2);width:24px;text-align:center;font-family:'Bebas Neue',sans-serif;}
 .rank-name{flex:1;font-size:14px;font-weight:700;}
 .rank-val{font-size:15px;font-weight:900;color:var(--blue);font-family:'Bebas Neue',sans-serif;}
 .rank-sub{font-size:11px;color:var(--gray2);min-width:40px;text-align:right;}
-.empty-state{text-align:center;padding:32px 24px;color:var(--gray2);}
-.empty-icon{font-size:40px;margin-bottom:8px;}
-
-/* ── 기록 */
-.game-card{background:#fff;border-radius:12px;padding:14px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,0.06);cursor:pointer;}
+.game-card{background:var(--white);border-radius:12px;padding:14px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.06);cursor:pointer;}
 .game-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
 .game-date{font-size:12px;color:var(--gray2);font-weight:500;}
 .game-result-badge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
@@ -66,41 +51,34 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--navy
 .badge-loss{background:#FEF2F2;color:var(--red);} .badge-none{background:var(--gray0);color:var(--gray2);}
 .game-vs{font-size:15px;font-weight:700;}
 .game-score{font-size:22px;font-weight:900;font-family:'Bebas Neue',sans-serif;color:var(--navy);}
-.game-meta{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;}
+.game-meta{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;}
 .game-tag{font-size:11px;color:var(--gray2);background:var(--gray0);padding:2px 8px;border-radius:20px;}
-
-/* ── 데이터 없음 안내 */
-.no-data{background:#fff;border-radius:14px;padding:32px 16px;text-align:center;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,0.06);}
-.no-data-icon{font-size:48px;margin-bottom:12px;}
-.no-data-title{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:8px;}
-.no-data-desc{font-size:13px;color:var(--gray2);line-height:1.6;}
-
-/* ── 업데이트 안내 */
-.update-bar{background:var(--navy);color:var(--gray2);font-size:11px;text-align:center;padding:6px 16px;}
-.update-bar span{color:var(--sky);}
+.detail-area{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--gray0);}
+.section-title{font-size:18px;font-weight:900;color:var(--navy);margin-bottom:14px;}
+.empty-state{text-align:center;padding:48px 24px;color:var(--gray2);}
+.empty-icon{font-size:48px;margin-bottom:12px;}
+.empty-text{font-size:14px;font-weight:500;}
+.no-data-banner{background:#FEF9EC;border:1.5px solid var(--gold);border-radius:12px;padding:16px;text-align:center;margin-bottom:16px;font-size:13px;color:#92400e;}
 </style>
 </head>
 <body>
 
 <div class="header">
   <div class="logo">FC <span>REVERSE</span></div>
-  <div class="view-badge">READ ONLY</div>
+  <span class="badge-view">VIEW</span>
 </div>
 
-<div id="update-bar" class="update-bar">데이터 로딩 중...</div>
-
 <div class="tab-bar">
-  <button class="tab active" onclick="switchTab('dashboard',this)">
-    <span class="tab-icon">📊</span>대시보드
-  </button>
-  <button class="tab" onclick="switchTab('history',this)">
-    <span class="tab-icon">📋</span>경기기록
-  </button>
+  <button class="tab active" onclick="switchTab('dashboard',this)"><span class="tab-icon">📊</span>대시보드</button>
+  <button class="tab" onclick="switchTab('history',this)"><span class="tab-icon">📋</span>경기기록</button>
 </div>
 
 <!-- 대시보드 -->
 <div id="page-dashboard" class="page active">
   <div class="section-title">📊 2026 시즌 현황</div>
+  <div id="no-data-banner" class="no-data-banner" style="display:none;">
+    ⚠️ 데이터가 없어요. fc_reverse_app.html에서 먼저 데이터를 입력해주세요.
+  </div>
   <div class="wdl">
     <div class="wdl-item w"><div class="wdl-val" id="d-win">0</div><div class="wdl-label">승</div></div>
     <div class="wdl-item d"><div class="wdl-val" id="d-draw">0</div><div class="wdl-label">무</div></div>
@@ -115,7 +93,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--navy
   <div class="card"><div class="card-title">⚽ 득점 순위</div><div id="goal-ranking"></div></div>
   <div class="card"><div class="card-title">🎯 어시스트 순위</div><div id="assist-ranking"></div></div>
   <div class="card"><div class="card-title">✅ 출석 순위</div><div id="att-ranking"></div></div>
-  <div class="card"><div class="card-title">🚨 무단불참</div><div id="absent-ranking"></div></div>
+  <div class="card"><div class="card-title">⭐ MOM 순위</div><div id="mom-ranking"></div></div>
 </div>
 
 <!-- 경기 기록 -->
@@ -125,93 +103,74 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--navy
 </div>
 
 <script>
-const PLAYERS = [
-  {no:1,  name:"이동욱"}, {no:2,  name:"홍동의"}, {no:3,  name:"김동훈"},
-  {no:4,  name:"전영욱"}, {no:5,  name:"정지훈"}, {no:6,  name:"최원일"},
-  {no:7,  name:"이성준"}, {no:8,  name:"정겨운"}, {no:9,  name:"박은길"},
-  {no:10, name:"최준원"}, {no:11, name:"송주엽"}, {no:12, name:"정성국"},
-  {no:14, name:"장현성"}, {no:16, name:"임상일"}, {no:17, name:"이충용"},
-  {no:18, name:"김동희"}, {no:20, name:"서영훈"}, {no:21, name:"유정두"},
-  {no:24, name:"이종훈"}, {no:25, name:"윤상현"}, {no:27, name:"강석준"},
-  {no:29, name:"김성진"}, {no:30, name:"박준현"}, {no:31, name:"최재오"},
-  {no:33, name:"김준모"}, {no:34, name:"송규태"}, {no:67, name:"구민수"},
-  {no:87, name:"류성민"}, {no:92, name:"김동균"}, {no:99, name:"박상준"},
-  {no:999,name:"이상문"},
-];
+const PLAYERS=[{no:1,name:"이동욱"},{no:2,name:"홍동의"},{no:3,name:"김동훈"},{no:4,name:"전영욱"},{no:5,name:"정지훈"},{no:6,name:"최원일"},{no:7,name:"이성준"},{no:8,name:"정겨운"},{no:9,name:"박은길"},{no:10,name:"최준원"},{no:11,name:"송주엽"},{no:12,name:"정성국"},{no:14,name:"장현성"},{no:16,name:"임상일"},{no:17,name:"이충용"},{no:18,name:"김동희"},{no:20,name:"서영훈"},{no:21,name:"유정두"},{no:24,name:"이종훈"},{no:25,name:"윤상현"},{no:27,name:"강석준"},{no:29,name:"김성진"},{no:30,name:"박준현"},{no:31,name:"최재오"},{no:33,name:"김준모"},{no:34,name:"송규태"},{no:67,name:"구민수"},{no:87,name:"류성민"},{no:92,name:"김동균"},{no:99,name:"박상준"},{no:999,name:"이상문"}];
 
-// ── 데이터 로드 (관리자 앱과 같은 localStorage key)
-function loadState() {
-  try { return JSON.parse(localStorage.getItem('fcreverse_data') || '{}'); }
-  catch(e) { return {}; }
-}
-const state = loadState();
-if (!state.games)  state.games  = [];
-if (!state.rpLog)  state.rpLog  = {};
+function loadState(){try{return JSON.parse(localStorage.getItem('fcreverse_data')||'{}');}catch(e){return{};}}
+let state=loadState();
+if(!state.games)state.games=[];
+if(!state.rpLog)state.rpLog={};
 
-// ── 업데이트 시각 표시
-const lastGame = [...state.games].sort((a,b)=>b.id-a.id)[0];
-const bar = document.getElementById('update-bar');
-if (state.games.length === 0) {
-  bar.innerHTML = '아직 등록된 경기가 없어요';
-} else {
-  bar.innerHTML = `총 <span>${state.games.length}경기</span> 기록 · 최근 업데이트: <span>${lastGame?.date||'-'}</span>`;
-}
-
-// ── 탭 전환
-function switchTab(name, el) {
+function switchTab(name,el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
   el.classList.add('active');
+  if(name==='dashboard')renderDashboard();
+  if(name==='history')renderHistory();
 }
 
-// ── 대시보드
-function renderDashboard() {
-  const games = state.games;
-  const nonF  = games.filter(g=>g.result&&g.result!=='none'&&!g.friendly);
-  const wins  = nonF.filter(g=>g.result==='win').length;
-  const draws = nonF.filter(g=>g.result==='draw').length;
-  const losses= nonF.filter(g=>g.result==='loss').length;
-  const wr    = nonF.length ? Math.round(wins/nonF.length*1000)/10 : 0;
-  const tg    = games.reduce((s,g)=>s+(g.scoreUs||0),0);
-  const tc    = games.reduce((s,g)=>s+(g.scoreThem||0),0);
+function renderDashboard(){
+  state=loadState();
+  if(!state.games)state.games=[];
+  const games=state.games;
 
-  document.getElementById('d-win').textContent  = wins;
-  document.getElementById('d-draw').textContent = draws;
-  document.getElementById('d-loss').textContent = losses;
-  document.getElementById('d-total-games').textContent = games.length;
-  document.getElementById('d-win-rate').textContent    = wr+'%';
-  document.getElementById('d-total-goals').textContent = tg;
-  const diff = tg-tc;
-  const dEl  = document.getElementById('d-goal-diff');
-  dEl.textContent  = (diff>=0?'+':'')+diff;
-  dEl.style.color  = diff>=0?'var(--green)':'var(--red)';
+  if(!games.length){
+    document.getElementById('no-data-banner').style.display='block';
+  } else {
+    document.getElementById('no-data-banner').style.display='none';
+  }
 
-  const stats = {};
-  PLAYERS.forEach(p=>{stats[p.no]={name:p.name,no:p.no,att:0,goals:0,assists:0,mom:0,absent:0,rp:state.rpLog[p.no]||0};});
+  const nonF=games.filter(g=>g.result&&g.result!=='none'&&!g.friendly);
+  const wins=nonF.filter(g=>g.result==='win').length;
+  const draws=nonF.filter(g=>g.result==='draw').length;
+  const losses=nonF.filter(g=>g.result==='loss').length;
+  const wr=nonF.length?Math.round(wins/nonF.length*1000)/10:0;
+  const tg=games.reduce((s,g)=>s+(g.scoreUs||0),0);
+  const tc=games.reduce((s,g)=>s+(g.scoreThem||0),0);
+  document.getElementById('d-win').textContent=wins;
+  document.getElementById('d-draw').textContent=draws;
+  document.getElementById('d-loss').textContent=losses;
+  document.getElementById('d-total-games').textContent=games.length;
+  document.getElementById('d-win-rate').textContent=wr+'%';
+  document.getElementById('d-total-goals').textContent=tg;
+  const diff=tg-tc;
+  const dEl=document.getElementById('d-goal-diff');
+  dEl.textContent=(diff>=0?'+':'')+diff;
+  dEl.style.color=diff>=0?'var(--green)':'var(--red)';
+
+  const stats={};
+  PLAYERS.forEach(p=>{stats[p.no]={name:p.name,no:p.no,att:0,goals:0,assists:0,mom:0,absent:0};});
   games.forEach(g=>{PLAYERS.forEach(p=>{
-    const d=g.players?.[p.no]; if(!d) return;
-    if(d.att)    stats[p.no].att++;
-    stats[p.no].goals   += d.goals||0;
-    stats[p.no].assists += d.assists||0;
-    if(d.mom)    stats[p.no].mom++;
-    if(d.absent) stats[p.no].absent++;
+    const d=g.players?.[p.no];if(!d)return;
+    if(d.att)stats[p.no].att++;
+    stats[p.no].goals+=d.goals||0;
+    stats[p.no].assists+=d.assists||0;
+    if(d.mom)stats[p.no].mom++;
+    if(d.absent)stats[p.no].absent++;
   });});
 
-  renderRanking('goal-ranking',   Object.values(stats).filter(s=>s.goals>0).sort((a,b)=>b.goals-a.goals),   'goals',   '골',  'var(--green)');
-  renderRanking('assist-ranking', Object.values(stats).filter(s=>s.assists>0).sort((a,b)=>b.assists-a.assists), 'assists', '어시','var(--blue)');
-  const attS = Object.values(stats).sort((a,b)=>b.att-a.att).slice(0,10).map(s=>({...s,attRate:games.length?Math.round(s.att/games.length*100):0}));
-  renderAttRanking('att-ranking', attS);
-  const absentS = Object.values(stats).filter(s=>s.absent>0).sort((a,b)=>b.absent-a.absent);
-  document.getElementById('absent-ranking').innerHTML = absentS.length
-    ? absentS.map((s,i)=>`<div class="ranking-row"><div class="rank-no">${i+1}</div><div class="rank-name">${s.name}</div><div class="rank-val" style="color:var(--red)">${s.absent}</div><div class="rank-sub">회</div></div>`).join('')
-    : '<div style="font-size:13px;color:var(--green);padding:12px 0;">무단불참자 없음 👍</div>';
+  renderRanking('goal-ranking',Object.values(stats).filter(s=>s.goals>0).sort((a,b)=>b.goals-a.goals),'goals','골','var(--green)');
+  renderRanking('assist-ranking',Object.values(stats).filter(s=>s.assists>0).sort((a,b)=>b.assists-a.assists),'assists','어시','var(--blue)');
+  const totalG=games.length;
+  const attS=Object.values(stats).sort((a,b)=>b.att-a.att).slice(0,10).map(s=>({...s,attRate:totalG?Math.round(s.att/totalG*100):0}));
+  renderAttRanking('att-ranking',attS);
+  renderRanking('mom-ranking',Object.values(stats).filter(s=>s.mom>0).sort((a,b)=>b.mom-a.mom),'mom','회','var(--gold)');
 }
 
-function renderRanking(id,data,field,unit,color) {
-  const el = document.getElementById(id);
-  if(!data.length){el.innerHTML='<div class="empty-state"><div class="empty-icon">📭</div><div style="font-size:13px;color:var(--gray2);">데이터 없음</div></div>';return;}
-  el.innerHTML = data.slice(0,10).map((s,i)=>`
+function renderRanking(id,data,field,unit,color){
+  const el=document.getElementById(id);
+  if(!data.length){el.innerHTML='<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">데이터 없음</div></div>';return;}
+  el.innerHTML=data.slice(0,10).map((s,i)=>`
     <div class="ranking-row">
       <div class="rank-no">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</div>
       <div class="rank-name">${s.name}</div>
@@ -219,8 +178,9 @@ function renderRanking(id,data,field,unit,color) {
       <div class="rank-sub">${unit}</div>
     </div>`).join('');
 }
-function renderAttRanking(id,data) {
-  document.getElementById(id).innerHTML = data.map((s,i)=>`
+
+function renderAttRanking(id,data){
+  document.getElementById(id).innerHTML=data.map((s,i)=>`
     <div class="ranking-row">
       <div class="rank-no">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</div>
       <div class="rank-name">${s.name}</div>
@@ -229,20 +189,20 @@ function renderAttRanking(id,data) {
     </div>`).join('');
 }
 
-// ── 경기 기록
-function renderHistory() {
-  const el = document.getElementById('history-list');
-  if (!state.games.length) {
-    el.innerHTML = '<div class="empty-state"><div class="empty-icon">⚽</div><div style="font-size:14px;font-weight:500;">아직 경기 기록이 없어요</div></div>';
+function renderHistory(){
+  state=loadState();
+  if(!state.games)state.games=[];
+  const el=document.getElementById('history-list');
+  if(!state.games.length){
+    el.innerHTML='<div class="empty-state"><div class="empty-icon">⚽</div><div class="empty-text">아직 경기 기록이 없어요</div></div>';
     return;
   }
-  el.innerHTML = [...state.games].reverse().map(g => {
-    const bc = g.friendly?'badge-draw':g.result==='win'?'badge-win':g.result==='draw'?'badge-draw':g.result==='loss'?'badge-loss':'badge-none';
-    const rt = g.friendly?'자체전':g.result==='win'?'승':g.result==='draw'?'무':g.result==='loss'?'패':'미진행';
-    const scorers  = PLAYERS.filter(p=>(g.players?.[p.no]?.goals||0)>0).map(p=>`${p.name}(${g.players[p.no].goals})`).join(' ');
-    const mom      = PLAYERS.find(p=>g.players?.[p.no]?.mom);
-    const attCount = PLAYERS.filter(p=>g.players?.[p.no]?.att).length;
-    const assists  = PLAYERS.filter(p=>(g.players?.[p.no]?.assists||0)>0).map(p=>`${p.name}(${g.players[p.no].assists})`).join(' ');
+  el.innerHTML=[...state.games].reverse().map(g=>{
+    const bc=g.friendly?'badge-draw':g.result==='win'?'badge-win':g.result==='draw'?'badge-draw':g.result==='loss'?'badge-loss':'badge-none';
+    const rt=g.friendly?'자체전':g.result==='win'?'승':g.result==='draw'?'무':g.result==='loss'?'패':'미진행';
+    const scorers=PLAYERS.filter(p=>(g.players?.[p.no]?.goals||0)>0).map(p=>`${p.name}(${g.players[p.no].goals})`).join(' ');
+    const mom=PLAYERS.find(p=>g.players?.[p.no]?.mom);
+    const attCount=PLAYERS.filter(p=>g.players?.[p.no]?.att).length;
     return `
     <div class="game-card" onclick="toggleDetail('${g.id}')">
       <div class="game-card-header">
@@ -252,34 +212,32 @@ function renderHistory() {
       <div style="display:flex;justify-content:space-between;align-items:center;">
         <div class="game-vs">${g.friendly?'🤝 자체전':`vs ${g.opponent||'상대팀'}`}</div>
         ${g.result==='none'
-          ? `<span style="font-size:13px;color:var(--gray2);">${g.noneReason||'사유없음'}</span>`
-          : `<div class="game-score">${g.scoreUs} : ${g.scoreThem}</div>`}
+          ?`<span style="font-size:13px;color:var(--gray2);">${g.noneReason||'사유없음'}</span>`
+          :`<div class="game-score">${g.scoreUs} : ${g.scoreThem}</div>`}
       </div>
       <div class="game-meta">
         ${g.venue?`<span class="game-tag">🏟 ${g.venue}</span>`:''}
         ${g.merch?'<span class="game-tag">용병동원</span>':''}
-        ${g.result==='none'&&g.noneReason?`<span class="game-tag">⛔ ${g.noneReason}</span>`:''}
         <span class="game-tag">👥 ${attCount}명</span>
-        ${mom?`<span class="game-tag">⭐ MOM: ${mom.name}</span>`:''}
+        ${mom?`<span class="game-tag">⭐ ${mom.name}</span>`:''}
       </div>
-      <div id="detail-${g.id}" style="display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--gray0);">
-        ${g.friendly&&g.teamBlue?`<div style="font-size:12px;margin-bottom:4px;">🔵 청팀: ${g.teamBlue}</div>`:''}
-        ${g.friendly&&g.teamWhite?`<div style="font-size:12px;margin-bottom:4px;">⚪ 백팀: ${g.teamWhite}</div>`:''}
-        ${scorers?`<div style="font-size:12px;margin-bottom:4px;">⚽ 득점: ${scorers}</div>`:''}
-        ${assists?`<div style="font-size:12px;margin-bottom:4px;">🎯 어시: ${assists}</div>`:''}
-        ${g.feedback?`<div style="font-size:12px;color:var(--gray3);margin-top:6px;line-height:1.6;">📝 ${g.feedback}</div>`:''}
+      <div class="detail-area" id="detail-${g.id}">
+        ${scorers?`<div style="font-size:12px;margin-bottom:4px;">⚽ ${scorers}</div>`:''}
+        ${g.feedback?`<div style="font-size:12px;color:var(--gray3);line-height:1.5;">📝 ${g.feedback}</div>`:''}
+        ${g.friendly&&g.teamBlue?`<div style="font-size:12px;margin-top:4px;">🔵 청팀: ${g.teamBlue}</div>`:''}
+        ${g.friendly&&g.teamWhite?`<div style="font-size:12px;">⚪ 백팀: ${g.teamWhite}</div>`:''}
       </div>
     </div>`;
   }).join('');
 }
-function toggleDetail(id) {
-  const el = document.getElementById('detail-'+id);
-  if (el) el.style.display = el.style.display==='none'?'block':'none';
+
+function toggleDetail(id){
+  const el=document.getElementById('detail-'+id);
+  if(el)el.style.display=el.style.display==='block'?'none':'block';
 }
 
-// ── 초기 렌더
+// 초기 렌더
 renderDashboard();
-renderHistory();
 </script>
 </body>
 </html>
