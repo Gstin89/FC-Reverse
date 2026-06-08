@@ -18,6 +18,10 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--navy
 .logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;color:var(--white);display:flex;align-items:center;gap:6px;}
 .logo span{color:var(--sky);}
 .btn-icon{background:rgba(255,255,255,.08);border:none;border-radius:8px;color:var(--white);font-size:18px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.sync-status{font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;letter-spacing:1px;}
+.sync-ok{background:rgba(0,196,106,.2);color:var(--green);}
+.sync-err{background:rgba(232,69,69,.2);color:var(--red);}
+.sync-ing{background:rgba(245,166,35,.2);color:var(--gold);}
 .tab-bar{background:var(--white);display:flex;border-bottom:1px solid var(--gray1);position:sticky;top:56px;z-index:99;}
 .tab{flex:1;padding:10px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;border:none;background:none;cursor:pointer;font-size:10px;font-weight:500;color:var(--gray2);border-bottom:2px solid transparent;transition:all .2s;font-family:'Noto Sans KR',sans-serif;}
 .tab.active{color:var(--blue);border-bottom-color:var(--sky);}
@@ -30,8 +34,8 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--navy
 .form-row{display:flex;gap:10px;margin-bottom:10px;}
 .form-group{flex:1;}
 .form-label{font-size:11px;font-weight:700;color:var(--gray3);margin-bottom:5px;display:block;}
-.form-input,.form-select{width:100%;padding:10px 12px;border:1.5px solid var(--gray1);border-radius:10px;font-size:14px;font-family:'Noto Sans KR',sans-serif;background:var(--white);color:var(--navy);-webkit-appearance:none;}
-.form-input:focus,.form-select:focus{outline:none;border-color:var(--sky);}
+.form-input{width:100%;padding:10px 12px;border:1.5px solid var(--gray1);border-radius:10px;font-size:14px;font-family:'Noto Sans KR',sans-serif;background:var(--white);color:var(--navy);-webkit-appearance:none;}
+.form-input:focus{outline:none;border-color:var(--sky);}
 .result-toggle{display:flex;gap:6px;}
 .result-btn{flex:1;padding:10px;border:1.5px solid var(--gray1);border-radius:10px;background:var(--white);font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;}
 .result-btn.win.active{background:var(--green);color:white;border-color:var(--green);}
@@ -63,7 +67,6 @@ input:checked+.toggle-slider::before{transform:translateX(20px);}
 .player-header-cell{font-size:10px;font-weight:700;color:var(--gray2);text-align:center;}
 .cell-btn{width:36px;height:30px;border:1.5px solid var(--gray1);border-radius:8px;background:var(--white);font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'Noto Sans KR',sans-serif;color:var(--gray3);margin:auto;}
 .cell-btn.att.on{background:var(--sky);color:white;border-color:var(--sky);}
-.cell-btn.supp{border-color:var(--gray1);color:var(--gray2);font-size:14px;}
 .cell-btn.supp.on{background:#FFF7ED;border-color:var(--gold);}
 .cell-btn.absent-btn.on{background:var(--red);color:white;border-color:var(--red);}
 .late-counter{display:flex;align-items:center;gap:3px;margin:auto;}
@@ -114,15 +117,12 @@ input:checked+.toggle-slider::before{transform:translateX(20px);}
 .modal-title{font-size:17px;font-weight:900;margin-bottom:16px;}
 .rp-header{display:grid;grid-template-columns:34px 1fr 90px 90px;gap:8px;padding:0 4px 8px;border-bottom:1.5px solid var(--gray1);margin-bottom:4px;}
 .rp-header-cell{font-size:10px;font-weight:700;color:var(--gray2);text-align:center;}
-.section-title{font-size:18px;font-weight:900;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.section-title{font-size:18px;font-weight:900;color:var(--navy);margin-bottom:14px;}
 .empty-state{text-align:center;padding:48px 24px;color:var(--gray2);}
 .empty-icon{font-size:48px;margin-bottom:12px;}
 .empty-text{font-size:14px;font-weight:500;}
 .search-bar{display:flex;align-items:center;background:var(--white);border-radius:12px;padding:10px 14px;gap:10px;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:12px;}
 .search-bar input{flex:1;border:none;outline:none;font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--navy);background:none;}
-.export-btn{display:flex;align-items:center;gap:8px;padding:12px 16px;border-radius:12px;background:var(--navy);color:white;font-size:13px;font-weight:700;border:none;cursor:pointer;width:100%;font-family:'Noto Sans KR',sans-serif;margin-bottom:8px;}
-
-/* ── 밴드 파싱 UI ── */
 .band-section{background:linear-gradient(135deg,#E8FDF0,#F0FDF9);border:1.5px solid #A8E6C4;border-radius:14px;padding:16px;margin-bottom:12px;}
 .band-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
 .band-logo{background:var(--band);color:white;font-size:11px;font-weight:900;padding:3px 8px;border-radius:6px;letter-spacing:1px;}
@@ -130,26 +130,19 @@ input:checked+.toggle-slider::before{transform:translateX(20px);}
 .band-textarea{width:100%;min-height:110px;padding:10px 12px;border:1.5px solid #A8E6C4;border-radius:10px;font-size:13px;font-family:'Noto Sans KR',sans-serif;background:white;resize:vertical;color:var(--navy);}
 .band-textarea:focus{outline:none;border-color:var(--band);}
 .band-parse-btn{width:100%;padding:12px;background:var(--band);border:none;border-radius:10px;color:white;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px;font-family:'Noto Sans KR',sans-serif;display:flex;align-items:center;justify-content:center;gap:6px;}
-.band-parse-btn:active{background:#029a48;}
 .parse-result{margin-top:10px;padding:10px 12px;background:white;border-radius:10px;border:1px solid #A8E6C4;font-size:12px;color:#1a5c3a;display:none;}
 .parse-result.show{display:block;}
 .parse-item{display:flex;align-items:flex-start;gap:6px;margin-bottom:4px;}
-.parse-dot{color:var(--band);font-weight:900;margin-top:1px;}
-
-/* ── 충돌 경고 배너 ── */
+.parse-dot{color:var(--band);font-weight:900;}
 .conflict-banner{background:#FEF9EC;border:1.5px solid var(--gold);border-radius:10px;padding:10px 12px;margin-bottom:10px;font-size:12px;color:#7a5000;display:none;}
 .conflict-banner.show{display:flex;align-items:flex-start;gap:8px;}
 .conflict-actions{display:flex;gap:6px;margin-top:8px;}
 .conflict-btn{flex:1;padding:7px;border-radius:8px;border:none;font-size:12px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;}
 .conflict-btn.keep{background:var(--gray0);color:var(--gray3);}
 .conflict-btn.overwrite{background:var(--gold);color:white;}
-
-/* ── 입력 방식 탭 ── */
-.input-mode-tabs{display:flex;gap:0;margin-bottom:14px;border-radius:12px;overflow:hidden;border:1.5px solid var(--gray1);}
+.input-mode-tabs{display:flex;margin-bottom:14px;border-radius:12px;overflow:hidden;border:1.5px solid var(--gray1);}
 .input-mode-tab{flex:1;padding:10px;border:none;background:var(--white);font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;color:var(--gray2);transition:all .15s;}
 .input-mode-tab.active{background:var(--navy);color:white;}
-
-/* ── 파싱 상태 뱃지 ── */
 .parsed-badge{display:inline-flex;align-items:center;gap:4px;background:#E8FDF0;color:#1a7a4a;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;margin-left:6px;}
 </style>
 </head>
@@ -157,84 +150,51 @@ input:checked+.toggle-slider::before{transform:translateX(20px);}
 
 <div class="header">
   <div class="logo">FC <span>REVERSE</span></div>
-  <div style="display:flex;gap:6px;">
+  <div style="display:flex;align-items:center;gap:6px;">
+    <span class="sync-status sync-ing" id="sync-status">⟳ 연결중</span>
     <button class="btn-icon" onclick="openExportModal()">📤</button>
   </div>
 </div>
 
 <div class="tab-bar">
-  <button class="tab active" onclick="switchTab('input',this)"><span class="tab-icon">⚽</span>경기입력</button>
-  <button class="tab" onclick="switchTab('rp',this)"><span class="tab-icon">💰</span>RP입력</button>
-  <button class="tab" onclick="switchTab('dashboard',this)"><span class="tab-icon">📊</span>대시보드</button>
-  <button class="tab" onclick="switchTab('history',this)"><span class="tab-icon">📋</span>기록</button>
+  <button class="tab active" data-tab="input"><span class="tab-icon">⚽</span>경기입력</button>
+  <button class="tab" data-tab="rp"><span class="tab-icon">💰</span>RP입력</button>
+  <button class="tab" data-tab="dashboard"><span class="tab-icon">📊</span>대시보드</button>
+  <button class="tab" data-tab="history"><span class="tab-icon">📋</span>기록</button>
 </div>
 
-<!-- ══════════ 경기 입력 ══════════ -->
 <div id="page-input" class="page active">
-
-  <!-- 입력 방식 선택 -->
   <div class="input-mode-tabs">
     <button class="input-mode-tab active" id="mode-tab-manual" onclick="setInputMode('manual')">✏️ 직접 입력</button>
     <button class="input-mode-tab" id="mode-tab-band" onclick="setInputMode('band')">📋 밴드 붙여넣기</button>
   </div>
-
-  <!-- 수정 모드 배너 -->
   <div id="edit-banner" style="display:none;background:#FEF9EC;border:1.5px solid var(--gold);border-radius:12px;padding:12px 14px;margin-bottom:12px;align-items:center;gap:10px;">
     <span style="font-size:18px;">✏️</span>
-    <div style="flex:1;">
-      <div style="font-size:13px;font-weight:700;color:#92400e;">경기 수정 모드</div>
-      <div id="edit-banner-info" style="font-size:11px;color:#a16207;margin-top:2px;"></div>
-    </div>
+    <div style="flex:1;"><div style="font-size:13px;font-weight:700;color:#92400e;">경기 수정 모드</div><div id="edit-banner-info" style="font-size:11px;color:#a16207;margin-top:2px;"></div></div>
     <button onclick="cancelEdit()" style="padding:6px 12px;border-radius:8px;border:1.5px solid var(--gold);background:white;color:#92400e;font-size:12px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;">취소</button>
   </div>
-
-  <!-- 밴드 파싱 영역 -->
   <div id="band-area" style="display:none;">
-
-    <!-- ① 참석인원 댓글 -->
     <div class="band-section">
-      <div class="band-header">
-        <span class="band-logo">BAND</span>
-        <span class="band-title">① 참석인원 댓글</span>
-      </div>
+      <div class="band-header"><span class="band-logo">BAND</span><span class="band-title">① 참석인원 댓글</span></div>
       <div style="font-size:11px;color:#1a5c3a;margin-bottom:8px;">날짜·회차·장소·출석·운영지원·무단불참 자동 파싱</div>
-      <textarea class="band-textarea" id="band-text-att" placeholder="예시)&#10;〈 5/10 (일) 참석인원 #26년 13회차〉 vs DS&#10;장소: 영롱이갈대1구장&#10;시간: 06:00~08:00&#10;총: 19명 (18+1)&#10;• 참석(18): 성준 겨운 동의 은길...&#10;• 운영지원(1): 현성&#10;• 무단불참: 영훈"></textarea>
+      <textarea class="band-textarea" id="band-text-att" placeholder="밴드 참석인원 댓글을 붙여넣으세요"></textarea>
       <button class="band-parse-btn" onclick="parseBandAtt()">🔍 참석인원 분석하기</button>
       <div class="parse-result" id="parse-result-att"></div>
     </div>
-
-    <!-- ② 경기 결과 댓글 -->
     <div class="band-section">
-      <div class="band-header">
-        <span class="band-logo">BAND</span>
-        <span class="band-title">② 경기 결과 댓글</span>
-      </div>
+      <div class="band-header"><span class="band-logo">BAND</span><span class="band-title">② 경기 결과 댓글</span></div>
       <div style="font-size:11px;color:#1a5c3a;margin-bottom:8px;">결과·스코어·골·어시 자동 파싱</div>
-      <textarea class="band-textarea" id="band-text-result" placeholder="예시)&#10;경기 결과 : 4:1승&#10;&#10;골 어시&#10;1쿼&#10;동균 성국&#10;동균 상현&#10;2쿼&#10;상일 성국&#10;3쿼&#10;정두 동균&#10;민수 동균&#10;실점"></textarea>
+      <textarea class="band-textarea" id="band-text-result" placeholder="밴드 경기결과 댓글을 붙여넣으세요"></textarea>
       <button class="band-parse-btn" onclick="parseBandResult()">🔍 경기 결과 분석하기</button>
       <div class="parse-result" id="parse-result-result"></div>
     </div>
-
-    <!-- ③ 감독 피드백 / MOM -->
     <div class="band-section">
-      <div class="band-header">
-        <span class="band-logo">BAND</span>
-        <span class="band-title">③ 감독 피드백 / MOM <span style="font-size:10px;font-weight:400;color:#1a5c3a;">(선택)</span></span>
-      </div>
-      <div style="font-size:11px;color:#1a5c3a;margin-bottom:8px;">MOM 선수·피드백 텍스트 자동 파싱</div>
-      <textarea class="band-textarea" id="band-text-mom" placeholder="예시)&#10;〈#26년8회차VS BF〉-3/29(일)-8:2 승&#10;MOM - 윤상현: 본 포지션이 아닌 곳에서...&#10;⚽피드백⚽: 후방에서부터 차분하게..."></textarea>
+      <div class="band-header"><span class="band-logo">BAND</span><span class="band-title">③ 감독 피드백 / MOM</span></div>
+      <textarea class="band-textarea" id="band-text-mom" placeholder="MOM / 피드백 댓글을 붙여넣으세요"></textarea>
       <button class="band-parse-btn" onclick="parseBandMom()">🔍 MOM/피드백 분석하기</button>
       <div class="parse-result" id="parse-result-mom"></div>
     </div>
-
-    <div style="background:#EEF6FF;border:1.5px solid #93C5FD;border-radius:12px;padding:12px;margin-bottom:12px;font-size:12px;color:#1e40af;">
-      <b>💡 병행 사용 안내</b><br>
-      경기 중 직접 입력한 내용이 있으면, 밴드 파싱 시 <b>충돌 항목을 선택해서 반영</b>할 수 있어요.<br>
-      세 댓글 중 있는 것만 붙여넣으면 됩니다.
-    </div>
   </div>
-
-  <!-- 충돌 경고 배너 -->
   <div class="conflict-banner" id="conflict-banner">
     <div style="font-size:18px;">⚠️</div>
     <div style="flex:1;">
@@ -246,56 +206,22 @@ input:checked+.toggle-slider::before{transform:translateX(20px);}
       </div>
     </div>
   </div>
-
-  <!-- 경기 기본 정보 -->
   <div class="card">
     <div class="card-title">경기 기본 정보</div>
     <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">날짜</label>
-        <input type="date" id="game-date" class="form-input">
-      </div>
-      <div class="form-group">
-        <label class="form-label">회차</label>
-        <input type="number" id="game-round" class="form-input" placeholder="1" min="1">
-      </div>
+      <div class="form-group"><label class="form-label">날짜</label><input type="date" id="game-date" class="form-input"></div>
+      <div class="form-group"><label class="form-label">회차</label><input type="number" id="game-round" class="form-input" placeholder="1" min="1"></div>
     </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">구장</label>
-        <input type="text" id="game-venue" class="form-input" placeholder="경기장 이름">
-      </div>
-    </div>
-    <div class="form-row" id="opponent-row">
-      <div class="form-group">
-        <label class="form-label">상대팀</label>
-        <input type="text" id="game-opponent" class="form-input" placeholder="상대팀 이름">
-      </div>
-    </div>
-    <div class="toggle-field">
-      <span class="toggle-label">🔁 용병 동원</span>
-      <label class="toggle-switch"><input type="checkbox" id="game-mercenary"><span class="toggle-slider"></span></label>
-    </div>
-    <div class="toggle-field">
-      <span class="toggle-label">🤝 자체전</span>
-      <label class="toggle-switch"><input type="checkbox" id="game-friendly" onchange="toggleFriendly(this.checked)"><span class="toggle-slider"></span></label>
-    </div>
+    <div class="form-row"><div class="form-group"><label class="form-label">구장</label><input type="text" id="game-venue" class="form-input" placeholder="경기장 이름"></div></div>
+    <div class="form-row" id="opponent-row"><div class="form-group"><label class="form-label">상대팀</label><input type="text" id="game-opponent" class="form-input" placeholder="상대팀 이름"></div></div>
+    <div class="toggle-field"><span class="toggle-label">🔁 용병 동원</span><label class="toggle-switch"><input type="checkbox" id="game-mercenary"><span class="toggle-slider"></span></label></div>
+    <div class="toggle-field"><span class="toggle-label">🤝 자체전</span><label class="toggle-switch"><input type="checkbox" id="game-friendly" onchange="toggleFriendly(this.checked)"><span class="toggle-slider"></span></label></div>
   </div>
-
-  <!-- 자체전 팀 편성 -->
   <div class="card" id="friendly-teams" style="display:none;">
     <div class="card-title">팀 편성</div>
-    <div style="margin-bottom:12px;">
-      <label class="form-label">🔵 청팀</label>
-      <input type="text" id="team-blue" class="form-input" placeholder="예: 겨운 동의 영욱 원일 동균...">
-    </div>
-    <div>
-      <label class="form-label">⚪ 백팀</label>
-      <input type="text" id="team-white" class="form-input" placeholder="예: 성준 은길 동훈 정두 상현...">
-    </div>
+    <div style="margin-bottom:12px;"><label class="form-label">🔵 청팀</label><input type="text" id="team-blue" class="form-input" placeholder="예: 겨운 동의 영욱..."></div>
+    <div><label class="form-label">⚪ 백팀</label><input type="text" id="team-white" class="form-input" placeholder="예: 성준 은길 동훈..."></div>
   </div>
-
-  <!-- 경기 결과 -->
   <div class="card" id="result-card">
     <div class="card-title">경기 결과</div>
     <div class="result-toggle" style="margin-bottom:14px;">
@@ -319,82 +245,49 @@ input:checked+.toggle-slider::before{transform:translateX(20px);}
       <div><div class="score-team">상대</div><input type="number" id="score-them" class="score-input" value="0" min="0"></div>
     </div>
   </div>
-
-  <!-- 선수별 기록 -->
   <div class="card">
-    <div class="card-title">
-      선수별 기록
-      <span id="parsed-badge" class="parsed-badge" style="display:none;">✓ 밴드 반영됨</span>
-    </div>
-    <div class="search-bar">
-      <span style="color:var(--gray2);">🔍</span>
-      <input type="text" id="player-search" placeholder="선수 이름 검색..." oninput="filterPlayers()">
-    </div>
+    <div class="card-title">선수별 기록<span id="parsed-badge" class="parsed-badge" style="display:none;">✓ 밴드 반영됨</span></div>
+    <div class="search-bar"><span style="color:var(--gray2);">🔍</span><input type="text" id="player-search" placeholder="선수 이름 검색..." oninput="filterPlayers()"></div>
     <div style="display:flex;gap:8px;margin-bottom:10px;">
       <button onclick="selectAll(true)" style="flex:1;padding:8px;border-radius:10px;border:1.5px solid var(--sky);background:var(--sky);color:white;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;font-size:12px;">전체 출석</button>
       <button onclick="selectAll(false)" style="flex:1;padding:8px;border-radius:10px;border:1.5px solid var(--gray1);background:white;color:var(--gray3);font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;font-size:12px;">전체 해제</button>
     </div>
     <div class="player-header">
-      <div class="player-header-cell">No</div>
-      <div class="player-header-cell" style="text-align:left;">이름</div>
-      <div class="player-header-cell">출석</div>
-      <div class="player-header-cell">운영</div>
-      <div class="player-header-cell">지각/무단</div>
-      <div class="player-header-cell">골</div>
-      <div class="player-header-cell">어시</div>
-      <div class="player-header-cell">MOM</div>
+      <div class="player-header-cell">No</div><div class="player-header-cell" style="text-align:left;">이름</div>
+      <div class="player-header-cell">출석</div><div class="player-header-cell">운영</div>
+      <div class="player-header-cell">지각/무단</div><div class="player-header-cell">골</div>
+      <div class="player-header-cell">어시</div><div class="player-header-cell">MOM</div>
     </div>
     <div class="player-list" id="player-list"></div>
   </div>
-
-  <!-- MOM 피드백 -->
   <div class="card">
     <div class="card-title">MOM / 경기 피드백</div>
-    <div class="form-group" style="margin-bottom:10px;">
-      <label class="form-label">MOM 선수</label>
-      <input type="text" id="mom-name-display" class="form-input" placeholder="선수 목록에서 ⭐ 클릭 또는 밴드 파싱으로 자동 입력" readonly style="background:var(--gray0);">
-    </div>
-    <div class="form-group">
-      <label class="form-label">감독 피드백 <span style="color:var(--gray2);font-weight:400;">(선택)</span></label>
-      <textarea id="game-feedback" style="width:100%;padding:10px 12px;border:1.5px solid var(--gray1);border-radius:10px;font-size:13px;font-family:'Noto Sans KR',sans-serif;min-height:80px;resize:vertical;" placeholder="감독 피드백 내용..."></textarea>
-    </div>
+    <div class="form-group" style="margin-bottom:10px;"><label class="form-label">MOM 선수</label><input type="text" id="mom-name-display" class="form-input" readonly style="background:var(--gray0);"></div>
+    <div class="form-group"><label class="form-label">감독 피드백 <span style="color:var(--gray2);font-weight:400;">(선택)</span></label><textarea id="game-feedback" style="width:100%;padding:10px 12px;border:1.5px solid var(--gray1);border-radius:10px;font-size:13px;font-family:'Noto Sans KR',sans-serif;min-height:80px;resize:vertical;" placeholder="감독 피드백 내용..."></textarea></div>
   </div>
-
-  <!-- 운영 지원 RP -->
   <div class="card">
     <div class="card-title">운영 지원 (RP 항목)</div>
     <div style="font-size:11px;color:var(--gray2);margin-bottom:10px;">경기 당일 지원 활동을 체크하세요</div>
     <div id="rp-support-list"></div>
   </div>
-
-  <!-- 무단불참 기록 -->
   <div class="card">
     <div class="card-title">🚨 무단불참 기록</div>
-    <div style="font-size:11px;color:var(--gray2);margin-bottom:10px;">무단불참자는 별도 벌금(2만원) 대상 · 기록 관리용</div>
     <div id="absent-list-display" style="font-size:13px;color:var(--red);font-weight:700;min-height:24px;"></div>
   </div>
-
   <button class="save-btn" id="save-btn" onclick="saveGame()">💾 경기 기록 저장</button>
 </div>
 
-<!-- ══════════ RP 입력 ══════════ -->
 <div id="page-rp" class="page">
   <div class="section-title">💰 RP 관리</div>
   <div class="card">
     <div class="card-title">RP 수동 입력 / 조정</div>
-    <div style="font-size:11px;color:var(--gray2);margin-bottom:10px;">지각비, 특별 RP 등을 직접 입력 (+ 또는 - 값)</div>
-    <div class="rp-header">
-      <div class="rp-header-cell">No</div>
-      <div class="rp-header-cell" style="text-align:left;">이름</div>
-      <div class="rp-header-cell">조정 RP</div>
-      <div class="rp-header-cell">현재 누계</div>
-    </div>
+    <div style="font-size:11px;color:var(--gray2);margin-bottom:10px;">지각비, 특별 RP 등을 직접 입력</div>
+    <div class="rp-header"><div class="rp-header-cell">No</div><div class="rp-header-cell" style="text-align:left;">이름</div><div class="rp-header-cell">조정 RP</div><div class="rp-header-cell">현재 누계</div></div>
     <div id="rp-manual-list"></div>
   </div>
   <button class="save-btn" onclick="saveRpManual()">💾 RP 저장</button>
 </div>
 
-<!-- ══════════ 대시보드 ══════════ -->
 <div id="page-dashboard" class="page">
   <div class="section-title">📊 2026 시즌 현황</div>
   <div class="wdl">
@@ -415,706 +308,347 @@ input:checked+.toggle-slider::before{transform:translateX(20px);}
   <div class="card"><div class="card-title">💰 RP 순위</div><div id="rp-ranking"></div></div>
 </div>
 
-<!-- ══════════ 기록 ══════════ -->
 <div id="page-history" class="page">
   <div class="section-title">📋 경기 기록</div>
   <div id="history-list"></div>
 </div>
 
-<!-- ══════════ 내보내기 모달 ══════════ -->
 <div class="modal-overlay" id="export-modal" onclick="closeExportModal(event)">
   <div class="modal" onclick="event.stopPropagation()">
     <div class="modal-title">📤 데이터 내보내기</div>
-    <button class="export-btn" onclick="exportJSON()"><span>📄</span> JSON 전체 데이터</button>
-    <button class="export-btn" onclick="exportCSV()"><span>📊</span> CSV (엑셀용)</button>
-    <button class="export-btn" onclick="exportSummaryText()"><span>📝</span> 시즌 요약 텍스트 복사</button>
+    <button style="display:flex;align-items:center;gap:8px;padding:12px 16px;border-radius:12px;background:var(--navy);color:white;font-size:13px;font-weight:700;border:none;cursor:pointer;width:100%;font-family:'Noto Sans KR',sans-serif;margin-bottom:8px;" onclick="exportSummaryText()"><span>📝</span> 시즌 요약 텍스트 복사</button>
     <button onclick="closeExportModal()" style="width:100%;padding:12px;border:none;background:var(--gray0);border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;color:var(--gray3);">닫기</button>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
-<script>
-const PLAYERS = [
-  {no:1,  name:"이동욱"}, {no:2,  name:"홍동의"}, {no:3,  name:"김동훈"},
-  {no:4,  name:"전영욱"}, {no:5,  name:"정지훈"}, {no:6,  name:"최원일"},
-  {no:7,  name:"이성준"}, {no:8,  name:"정겨운"}, {no:9,  name:"박은길"},
-  {no:10, name:"최준원"}, {no:11, name:"송주엽"}, {no:12, name:"정성국"},
-  {no:14, name:"장현성"}, {no:16, name:"임상일"}, {no:17, name:"이충용"},
-  {no:18, name:"김동희"}, {no:20, name:"서영훈"}, {no:21, name:"유정두"},
-  {no:24, name:"이종훈"}, {no:25, name:"윤상현"}, {no:27, name:"강석준"},
-  {no:29, name:"김성진"}, {no:30, name:"박준현"}, {no:31, name:"최재오"},
-  {no:33, name:"김준모"}, {no:34, name:"송규태"}, {no:67, name:"구민수"},
-  {no:87, name:"류성민"}, {no:92, name:"김동균"}, {no:99, name:"박상준"},
-  {no:999, name:"이상문"},
-];
+<!-- Firebase SDK -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getDatabase, ref, set, get, onValue } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
 
-function findPlayer(nameStr) {
-  if (!nameStr) return null;
-  const s = nameStr.trim().replace(/\s/g,'');
-  let p = PLAYERS.find(p => p.name === s || p.name.replace(/\s/g,'') === s);
-  if (p) return p;
-  p = PLAYERS.find(p => {
-    const n = p.name.replace(/\s/g,'');
-    return n.endsWith(s) || n.includes(s);
-  });
-  return p || null;
+const firebaseConfig = {
+  databaseURL: "https://fc-reverse-default-rtdb.firebaseio.com"
+};
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const DB_REF = 'fcreverse';
+
+const PLAYERS=[{no:1,name:"이동욱"},{no:2,name:"홍동의"},{no:3,name:"김동훈"},{no:4,name:"전영욱"},{no:5,name:"정지훈"},{no:6,name:"최원일"},{no:7,name:"이성준"},{no:8,name:"정겨운"},{no:9,name:"박은길"},{no:10,name:"최준원"},{no:11,name:"송주엽"},{no:12,name:"정성국"},{no:14,name:"장현성"},{no:16,name:"임상일"},{no:17,name:"이충용"},{no:18,name:"김동희"},{no:20,name:"서영훈"},{no:21,name:"유정두"},{no:24,name:"이종훈"},{no:25,name:"윤상현"},{no:27,name:"강석준"},{no:29,name:"김성진"},{no:30,name:"박준현"},{no:31,name:"최재오"},{no:33,name:"김준모"},{no:34,name:"송규태"},{no:67,name:"구민수"},{no:87,name:"류성민"},{no:92,name:"김동균"},{no:99,name:"박상준"},{no:999,name:"이상문"}];
+const RP_ITEMS=[{key:"주부심",label:"🦺 주부심",rp:1000,counter:true},{key:"카풀",label:"🚗 카풀 제공",rp:3000,counter:true},{key:"구장",label:"🏟 구장 섭외",rp:5000},{key:"소개",label:"🤝 선수 소개",rp:10000}];
+
+let state={games:[],rpLog:{},season:'2026'};
+let curGame=initCurGame();
+let pendingParsed=null;
+let editingGameId=null;
+
+function initCurGame(){return{result:null,noneReason:'',players:Object.fromEntries(PLAYERS.map(p=>[p.no,{att:false,late:0,absent:false,support:false,goals:0,assists:0,mom:false}])),rpSupport:Object.fromEntries(PLAYERS.map(p=>[p.no,Object.fromEntries(RP_ITEMS.map(i=>[i.key,0]))]))};}
+
+function setSyncStatus(status){
+  const el=document.getElementById('sync-status');
+  if(status==='ok'){el.textContent='✓ 동기화됨';el.className='sync-status sync-ok';}
+  else if(status==='err'){el.textContent='✗ 오프라인';el.className='sync-status sync-err';}
+  else{el.textContent='⟳ 동기화중';el.className='sync-status sync-ing';}
 }
 
-const RP_ITEMS = [
-  {key:"주부심", label:"🦺 주부심",   rp:1000,  counter:true},
-  {key:"카풀",   label:"🚗 카풀 제공", rp:3000,  counter:true},
-  {key:"구장",   label:"🏟 구장 섭외", rp:5000},
-  {key:"소개",   label:"🤝 선수 소개", rp:10000},
-];
-
-function loadState() { try { return JSON.parse(localStorage.getItem('fcreverse_data')||'{}'); } catch(e){return{};} }
-function saveState(d) { localStorage.setItem('fcreverse_data', JSON.stringify(d)); }
-
-let state = loadState();
-if (!state.games)  state.games  = [];
-if (!state.rpLog)  state.rpLog  = {};
-if (!state.season) state.season = '2026';
-
-let curGame = initCurGame();
-let pendingParsed = null;
-
-function initCurGame() {
-  return {
-    result: null, feedback: '', noneReason: '',
-    players: Object.fromEntries(PLAYERS.map(p=>[p.no,{att:false,late:0,absent:false,support:false,goals:0,assists:0,mom:false}])),
-    rpSupport: Object.fromEntries(PLAYERS.map(p=>[p.no,Object.fromEntries(RP_ITEMS.map(i=>[i.key,0]))]))
-  };
+async function saveToFirebase(){
+  setSyncStatus('ing');
+  try{
+    await set(ref(db,DB_REF),state);
+    setSyncStatus('ok');
+  }catch(e){
+    setSyncStatus('err');
+    showToast('⚠️ 저장 실패 — 네트워크 확인');
+  }
 }
 
-function switchTab(name, el) {
+// 실시간 리스닝
+onValue(ref(db,DB_REF),(snapshot)=>{
+  const data=snapshot.val();
+  if(data){
+    state=data;
+    if(!state.games)state.games=[];
+    if(!state.rpLog)state.rpLog={};
+    setSyncStatus('ok');
+  } else {
+    setSyncStatus('ok');
+  }
+  // 현재 탭 업데이트
+  const activeTab=document.querySelector('.tab.active');
+  if(activeTab){
+    const tabName=activeTab.onclick?.toString().match(/'(\w+)'/)?.[1];
+    if(tabName==='dashboard')renderDashboard();
+    if(tabName==='history')renderHistory();
+    if(tabName==='rp')renderRpManual();
+  }
+  document.getElementById('game-round').value=state.games.length+1;
+},(error)=>{setSyncStatus('err');});
+
+function findPlayer(n){if(!n)return null;const s=n.trim().replace(/\s/g,'');let p=PLAYERS.find(p=>p.name===s||p.name.replace(/\s/g,'')===s);if(p)return p;p=PLAYERS.find(p=>{const x=p.name.replace(/\s/g,'');return x.endsWith(s)||x.includes(s);});return p||null;}
+function splitNames(str){return str.split(/[\s,、]+/).map(s=>s.trim()).filter(s=>s.length>=2);}
+function parseNameCount(raw){const m=raw.match(/^(.+?)\((\d+)\)$/);return m?[m[1],parseInt(m[2])]:[raw,1];}
+
+function switchTab(name,el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
   el.classList.add('active');
-  if(name==='dashboard') renderDashboard();
-  if(name==='history')   renderHistory();
-  if(name==='rp')        renderRpManual();
+  if(name==='dashboard')renderDashboard();
+  if(name==='history')renderHistory();
+  if(name==='rp')renderRpManual();
 }
+window.switchTab=switchTab;
 
-function setInputMode(mode) {
-  document.getElementById('band-area').style.display = mode==='band'?'block':'none';
-  document.getElementById('mode-tab-manual').classList.toggle('active', mode==='manual');
-  document.getElementById('mode-tab-band').classList.toggle('active', mode==='band');
+function setInputMode(mode){
+  document.getElementById('band-area').style.display=mode==='band'?'block':'none';
+  document.getElementById('mode-tab-manual').classList.toggle('active',mode==='manual');
+  document.getElementById('mode-tab-band').classList.toggle('active',mode==='band');
 }
+window.setInputMode=setInputMode;
 
+// 초기화
 (function init(){
-  const today = new Date();
-  const sun = new Date(today);
+  const today=new Date();
+  const sun=new Date(today);
   sun.setDate(today.getDate()-today.getDay());
-  document.getElementById('game-date').value = sun.toISOString().slice(0,10);
-  document.getElementById('game-round').value = state.games.length+1;
+  document.getElementById('game-date').value=sun.toISOString().slice(0,10);
   renderPlayerList();
   renderRpSupportList();
 })();
 
-function parseBandAtt() {
-  const text = document.getElementById('band-text-att').value.trim();
-  if (!text) { showToast('참석인원 댓글을 붙여넣어주세요'); return; }
-
-  const result = { meta:{}, attendance:[], support:[], absent:[], goals:[], assists:[], score:{us:null,them:null}, result:null };
-  const lines = text.split(/\n/).map(l=>l.trim()).filter(Boolean);
-
-  for (const l of lines.slice(0, 4)) {
-    const roundM = l.match(/(\d+)회차/);
-    if (roundM && !result.meta.round) result.meta.round = parseInt(roundM[1]);
-    const dateM = l.match(/(\d{1,2})\/(\d{1,2})/);
-    if (dateM && !result.meta.date) {
-      const y = new Date().getFullYear();
-      result.meta.date = `${y}-${String(dateM[1]).padStart(2,'0')}-${String(dateM[2]).padStart(2,'0')}`;
-    }
-    const vsM = l.match(/[vV][sS]\s*([A-Za-z가-힣0-9]+)/);
-    if (vsM && !result.meta.opponent) result.meta.opponent = vsM[1].trim();
+function parseBandAtt(){
+  const text=document.getElementById('band-text-att').value.trim();
+  if(!text){showToast('참석인원 댓글을 붙여넣어주세요');return;}
+  const result={meta:{},attendance:[],support:[],absent:[],goals:[],assists:[],score:{us:null,them:null},result:null};
+  const lines=text.split(/\n/).map(l=>l.trim()).filter(Boolean);
+  for(const l of lines.slice(0,4)){
+    const roundM=l.match(/(\d+)회차/);if(roundM&&!result.meta.round)result.meta.round=parseInt(roundM[1]);
+    const dateM=l.match(/(\d{1,2})\/(\d{1,2})/);if(dateM&&!result.meta.date){const y=new Date().getFullYear();result.meta.date=`${y}-${String(dateM[1]).padStart(2,'0')}-${String(dateM[2]).padStart(2,'0')}`;}
+    const vsM=l.match(/[vV][sS]\s*([A-Za-z가-힣0-9]+)/);if(vsM&&!result.meta.opponent)result.meta.opponent=vsM[1].trim();
   }
-  if (!result.meta.opponent) {
-    for (const l of lines) {
-      const vsM = l.match(/^[vV][sS]\s+([A-Za-z가-힣0-9]+)/);
-      if (vsM) { result.meta.opponent = vsM[1].trim(); break; }
-    }
-  }
+  for(const l of lines){const m=l.match(/장소\s*[:：]\s*(.+)/);if(m){result.meta.venue=m[1].trim();break;}}
+  let curSection=null;const sectionNames={att:[],support:[],absent:[]};
+  const detectSection=(l)=>{const c=l.replace(/^[•▪\-\s]+/,'');if(/^참석/.test(c)&&!/무단|불참/.test(c))return'att';if(/^운영.?지원/.test(c))return'support';if(/^무단/.test(c))return'absent';if(/^용병/.test(c))return'skip';return null;};
+  const extractNames=(l)=>{let s=l.replace(/^[•▪\-\s]*(참석|운영.?지원|무단불참|무단|용병)\s*[\(（]\d+[\)）]?\s*/,'').replace(/^[:：]\s*/,'').replace(/\(.*?\)/g,'').replace(/\d+/g,'').trim();return splitNames(s);};
+  for(const l of lines){const sec=detectSection(l);if(sec){curSection=sec;if(curSection!=='skip')extractNames(l).forEach(n=>{const p=findPlayer(n);if(p)sectionNames[curSection].push(p.no);});continue;}if(curSection&&curSection!=='skip'&&(/^[:：]/.test(l)||/^[가-힣]/.test(l)))extractNames(l).forEach(n=>{const p=findPlayer(n);if(p)sectionNames[curSection].push(p.no);});}
+  sectionNames.att.forEach(no=>{if(!result.attendance.includes(no))result.attendance.push(no);});
+  sectionNames.support.forEach(no=>{if(!result.support.includes(no))result.support.push(no);if(!result.attendance.includes(no))result.attendance.push(no);});
+  sectionNames.absent.forEach(no=>{if(!result.absent.includes(no))result.absent.push(no);});
+  showParseResult('att',result);detectAndApply(result);
+}
+window.parseBandAtt=parseBandAtt;
 
-  for (const l of lines) {
-    const m = l.match(/장소\s*[:：]\s*(.+)/);
-    if (m) { result.meta.venue = m[1].trim(); break; }
-  }
+function parseBandResult(){
+  const text=document.getElementById('band-text-result').value.trim();
+  if(!text){showToast('경기 결과 댓글을 붙여넣어주세요');return;}
+  const result={meta:{},attendance:[],support:[],absent:[],goals:[],assists:[],score:{us:null,them:null},result:null};
+  const lines=text.split(/\n/).map(l=>l.trim()).filter(Boolean);
+  for(const l of lines){if(result.result)break;const patA=l.match(/(\d+)\s*[:：]\s*(\d+)\s*(승|무|패|무승부)/);if(patA){result.score.us=parseInt(patA[1]);result.score.them=parseInt(patA[2]);const rw=patA[3].replace('무승부','무');result.result=rw==='승'?'win':rw==='무'?'draw':'loss';continue;}const patB=l.match(/(승|무|패|무승부)\s*(\d+)\s*[:：]\s*(\d+)/);if(patB){const rw=patB[1].replace('무승부','무');result.result=rw==='승'?'win':rw==='무'?'draw':'loss';result.score.us=parseInt(patB[2]);result.score.them=parseInt(patB[3]);continue;}const patC=l.match(/(\d+)\s*[:：]\s*(\d+)/);if(patC&&result.score.us===null){result.score.us=parseInt(patC[1]);result.score.them=parseInt(patC[2]);}}
+  if(!result.result){for(const l of lines){const rm=l.match(/(승|패|무|무승부)/);if(rm){const rw=rm[1].replace('무승부','무');result.result=rw==='승'?'win':rw==='무'?'draw':'loss';break;}}}
+  let inGoals=false;
+  for(const l of lines){if(/^골\s*어시/.test(l)||/^골\s*\/\s*어시/.test(l)){inGoals=true;continue;}if(inGoals){if(/^[•▪\-]/.test(l)||/참석|장소|결과|총:|시간|운영|무단/.test(l)){inGoals=false;continue;}if(/^실점/.test(l)||/^\d[쿼Q]/.test(l)||/^[<〈]/.test(l))continue;const parts=l.split(/\s+/).filter(Boolean);if(!parts.length)continue;const[gn,gc]=parseNameCount(parts[0]);const gp=findPlayer(gn);if(gp)for(let i=0;i<gc;i++)result.goals.push(gp.no);if(parts[1]){const[an,ac]=parseNameCount(parts[1]);const ap=findPlayer(an);if(ap)for(let i=0;i<ac;i++)result.assists.push(ap.no);}}}
+  showParseResult('result',result);detectAndApply(result);
+}
+window.parseBandResult=parseBandResult;
 
-  const SECTION_ATT='att', SECTION_SUPPORT='support', SECTION_ABSENT='absent', SECTION_SKIP='skip';
-  let curSection = null;
-  const sectionNames = { att:[], support:[], absent:[] };
+function parseBandMom(){
+  const text=document.getElementById('band-text-mom').value.trim();
+  if(!text){showToast('피드백 댓글을 붙여넣어주세요');return;}
+  let momName=null,feedback='';
+  const momM=text.match(/MOM\s*[-–—:]\s*([가-힣]{2,4})/i);if(momM)momName=momM[1].trim();
+  const fbM=text.match(/피드백[⚽️\s]*[:：]\s*([\s\S]+)/);if(fbM)feedback=fbM[1].trim();else feedback=text.replace(/^[\s\S]*?MOM\s*[-–—:]\s*[가-힣]+\s*[:：]?\s*[^\n]*\n?/,'').trim();
+  const momPlayer=momName?findPlayer(momName):null;
+  if(momPlayer){PLAYERS.forEach(p=>curGame.players[p.no].mom=false);curGame.players[momPlayer.no].mom=true;document.getElementById('mom-name-display').value=momPlayer.name;}
+  if(feedback)document.getElementById('game-feedback').value=feedback;
+  const el=document.getElementById('parse-result-mom');el.classList.add('show');
+  el.innerHTML=`${momPlayer?`<div class="parse-item"><span class="parse-dot">⭐</span><span>MOM: <b>${momPlayer.name}</b></span></div>`:`<div class="parse-item"><span class="parse-dot">⚠️</span><span>MOM 선수를 찾지 못했어요</span></div>`}${feedback?`<div class="parse-item"><span class="parse-dot">📝</span><span>피드백 ${feedback.length}자 저장됨</span></div>`:''}`;
+  renderPlayerList();showToast('⭐ MOM/피드백 반영 완료');
+}
+window.parseBandMom=parseBandMom;
 
-  const detectSection = (l) => {
-    const clean = l.replace(/^[•▪\-\s]+/,'');
-    if (/^참석/.test(clean) && !/무단|불참/.test(clean)) return SECTION_ATT;
-    if (/^운영.?지원/.test(clean)) return SECTION_SUPPORT;
-    if (/^무단/.test(clean)) return SECTION_ABSENT;
-    if (/^용병/.test(clean)) return SECTION_SKIP;
-    return null;
-  };
-
-  const extractNames = (l) => {
-    let s = l
-      .replace(/^[•▪\-\s]*(참석|운영.?지원|무단불참|무단|용병)\s*[\(（]\d+[\)）]?\s*/,'')
-      .replace(/^[:：]\s*/,'')
-      .replace(/\(.*?\)/g,'')
-      .replace(/\d+/g,'')
-      .trim();
-    return splitNames(s);
-  };
-
-  for (let i = 0; i < lines.length; i++) {
-    const l = lines[i];
-    const sec = detectSection(l);
-    if (sec) {
-      curSection = sec;
-      if (curSection !== SECTION_SKIP) {
-        extractNames(l).forEach(n => {
-          const p = findPlayer(n);
-          if (p) sectionNames[curSection].push(p.no);
-        });
-      }
-      continue;
-    }
-    if (curSection && curSection !== SECTION_SKIP) {
-      if (/^[:：]/.test(l) || /^[가-힣]/.test(l)) {
-        extractNames(l).forEach(n => {
-          const p = findPlayer(n);
-          if (p) sectionNames[curSection].push(p.no);
-        });
-      }
-    }
-  }
-
-  sectionNames.att.forEach(no => { if (!result.attendance.includes(no)) result.attendance.push(no); });
-  sectionNames.support.forEach(no => {
-    if (!result.support.includes(no)) result.support.push(no);
-    if (!result.attendance.includes(no)) result.attendance.push(no);
-  });
-  sectionNames.absent.forEach(no => { if (!result.absent.includes(no)) result.absent.push(no); });
-
-  showParseResult('att', result);
-  detectAndApply(result);
+function detectAndApply(parsed){
+  const hasAtt=PLAYERS.some(p=>curGame.players[p.no].att);
+  const hasGoal=PLAYERS.some(p=>curGame.players[p.no].goals>0);
+  const conflicts=[];
+  if(hasAtt&&parsed.attendance.length>0)conflicts.push('출석 인원');
+  if(hasGoal&&parsed.goals.length>0)conflicts.push('골/어시 기록');
+  if(conflicts.length>0){pendingParsed=parsed;document.getElementById('conflict-detail').textContent=`이미 직접 입력한 항목: ${conflicts.join(', ')}`;document.getElementById('conflict-banner').classList.add('show');showToast('⚠️ 기존 입력값과 충돌');}
+  else applyParsedDirect(parsed);
 }
 
-function parseBandResult() {
-  const text = document.getElementById('band-text-result').value.trim();
-  if (!text) { showToast('경기 결과 댓글을 붙여넣어주세요'); return; }
-
-  const result = { meta:{}, attendance:[], support:[], absent:[], goals:[], assists:[], score:{us:null,them:null}, result:null };
-  const lines = text.split(/\n/).map(l=>l.trim()).filter(Boolean);
-
-  for (const l of lines) {
-    if (result.result) break;
-    const patA = l.match(/(\d+)\s*[:：]\s*(\d+)\s*(승|무|패|무승부)/);
-    if (patA) {
-      result.score.us = parseInt(patA[1]);
-      result.score.them = parseInt(patA[2]);
-      const rw = patA[3].replace('무승부','무');
-      result.result = rw==='승'?'win':rw==='무'?'draw':'loss';
-      continue;
-    }
-    const patB = l.match(/(승|무|패|무승부)\s*(\d+)\s*[:：]\s*(\d+)/);
-    if (patB) {
-      const rw = patB[1].replace('무승부','무');
-      result.result = rw==='승'?'win':rw==='무'?'draw':'loss';
-      result.score.us = parseInt(patB[2]);
-      result.score.them = parseInt(patB[3]);
-      continue;
-    }
-    const patC = l.match(/(\d+)\s*[:：]\s*(\d+)/);
-    if (patC && result.score.us === null) {
-      result.score.us = parseInt(patC[1]);
-      result.score.them = parseInt(patC[2]);
-    }
-  }
-
-  if (!result.result) {
-    for (const l of lines) {
-      const rm = l.match(/(승|패|무|무승부)/);
-      if (rm) {
-        const rw = rm[1].replace('무승부','무');
-        result.result = rw==='승'?'win':rw==='무'?'draw':'loss';
-        break;
-      }
-    }
-  }
-
-  let inGoals = false;
-  for (const l of lines) {
-    if (/^골\s*어시/.test(l) || /^골\s*\/\s*어시/.test(l)) { inGoals = true; continue; }
-    if (inGoals) {
-      if (/^[•▪\-]/.test(l) || /참석|장소|결과|총:|시간|운영|무단/.test(l)) { inGoals=false; continue; }
-      if (/^실점/.test(l) || /^\d[쿼Q]/.test(l) || /^[<〈]/.test(l)) continue;
-      const parts = l.split(/\s+/).filter(Boolean);
-      if (!parts.length) continue;
-      const [goalName, goalCnt] = parseNameCount(parts[0]);
-      const gp = findPlayer(goalName);
-      if (gp) for (let i=0;i<goalCnt;i++) result.goals.push(gp.no);
-      if (parts[1]) {
-        const [assistName, assistCnt] = parseNameCount(parts[1]);
-        const ap = findPlayer(assistName);
-        if (ap) for (let i=0;i<assistCnt;i++) result.assists.push(ap.no);
-      }
-    }
-  }
-
-  showParseResult('result', result);
-  detectAndApply(result);
-}
-
-function parseNameCount(raw) {
-  const m = raw.match(/^(.+?)\((\d+)\)$/);
-  return m ? [m[1], parseInt(m[2])] : [raw, 1];
-}
-
-function splitNames(str) {
-  return str.split(/[\s,、]+/).map(s=>s.trim()).filter(s=>s.length>=2);
-}
-
-function parseBandMom() {
-  const text = document.getElementById('band-text-mom').value.trim();
-  if (!text) { showToast('피드백 댓글을 붙여넣어주세요'); return; }
-
-  let momName = null, feedback = '';
-  const momM = text.match(/MOM\s*[-–—:]\s*([가-힣]{2,4})/i);
-  if (momM) momName = momM[1].trim();
-
-  const fbM = text.match(/피드백[⚽️\s]*[:：]\s*([\s\S]+)/);
-  if (fbM) feedback = fbM[1].trim();
-  else {
-    feedback = text.replace(/^[\s\S]*?MOM\s*[-–—:]\s*[가-힣]+\s*[:：]?\s*[^\n]*\n?/,'').trim();
-  }
-
-  const momPlayer = momName ? findPlayer(momName) : null;
-  if (momPlayer) {
-    PLAYERS.forEach(p => curGame.players[p.no].mom = false);
-    curGame.players[momPlayer.no].mom = true;
-    document.getElementById('mom-name-display').value = momPlayer.name;
-  }
-  if (feedback) document.getElementById('game-feedback').value = feedback;
-
-  const el = document.getElementById('parse-result-mom');
-  el.classList.add('show');
-  el.innerHTML = `
-    ${momPlayer
-      ? `<div class="parse-item"><span class="parse-dot">⭐</span><span>MOM: <b>${momPlayer.name}</b></span></div>`
-      : `<div class="parse-item"><span class="parse-dot">⚠️</span><span>MOM 선수를 찾지 못했어요 (이름 확인)</span></div>`}
-    ${feedback ? `<div class="parse-item"><span class="parse-dot">📝</span><span>피드백 ${feedback.length}자 저장됨</span></div>` : ''}
-  `;
-  renderPlayerList();
-  showToast('⭐ MOM/피드백 반영 완료');
-}
-
-function detectAndApply(parsed) {
-  const hasManualAtt  = PLAYERS.some(p => curGame.players[p.no].att);
-  const hasManualGoal = PLAYERS.some(p => curGame.players[p.no].goals > 0);
-  const conflicts = [];
-  if (hasManualAtt  && parsed.attendance.length > 0) conflicts.push('출석 인원');
-  if (hasManualGoal && parsed.goals.length > 0)      conflicts.push('골/어시 기록');
-  if (conflicts.length > 0) {
-    pendingParsed = parsed;
-    document.getElementById('conflict-detail').textContent = `이미 직접 입력한 항목: ${conflicts.join(', ')}`;
-    document.getElementById('conflict-banner').classList.add('show');
-    showToast('⚠️ 기존 입력값과 충돌 — 아래에서 선택해주세요');
-  } else {
-    applyParsedDirect(parsed);
-  }
-}
-
-function applyParsed(mode) {
-  if (!pendingParsed) return;
+function applyParsed(mode){
+  if(!pendingParsed)return;
   document.getElementById('conflict-banner').classList.remove('show');
-  if (mode === 'overwrite') {
-    PLAYERS.forEach(p => {
-      curGame.players[p.no].att    = false;
-      curGame.players[p.no].goals  = 0;
-      curGame.players[p.no].assists= 0;
-      curGame.players[p.no].absent = false;
-    });
-    applyParsedDirect(pendingParsed);
-    showToast('✅ 밴드 내용으로 덮어씌웠어요');
-  } else {
-    applyParsedMerge(pendingParsed);
-    showToast('✅ 기존 입력 유지 + 누락 항목 보완');
-  }
-  pendingParsed = null;
+  if(mode==='overwrite'){PLAYERS.forEach(p=>{curGame.players[p.no].att=false;curGame.players[p.no].goals=0;curGame.players[p.no].assists=0;curGame.players[p.no].absent=false;});applyParsedDirect(pendingParsed);showToast('✅ 밴드 내용으로 덮어씌웠어요');}
+  else{applyParsedMerge(pendingParsed);showToast('✅ 기존 입력 유지');}
+  pendingParsed=null;
+}
+window.applyParsed=applyParsed;
+
+function applyParsedDirect(parsed){
+  if(parsed.meta.date)document.getElementById('game-date').value=parsed.meta.date;
+  if(parsed.meta.round)document.getElementById('game-round').value=parsed.meta.round;
+  if(parsed.meta.venue)document.getElementById('game-venue').value=parsed.meta.venue;
+  if(parsed.meta.opponent)document.getElementById('game-opponent').value=parsed.meta.opponent;
+  if(parsed.result){curGame.result=parsed.result;document.querySelectorAll('.result-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.result-btn').forEach(b=>{if(b.classList.contains(parsed.result)||(parsed.result==='none'&&b.classList.contains('none-btn')))b.classList.add('active');});}
+  if(parsed.score.us!==null)document.getElementById('score-us').value=parsed.score.us;
+  if(parsed.score.them!==null)document.getElementById('score-them').value=parsed.score.them;
+  parsed.attendance.forEach(no=>{if(curGame.players[no])curGame.players[no].att=true;});
+  parsed.absent.forEach(no=>{if(curGame.players[no]){curGame.players[no].absent=true;curGame.players[no].att=false;}});
+  parsed.support.forEach(no=>{if(curGame.players[no])curGame.players[no].support=true;});
+  const gc={},ac={};
+  parsed.goals.forEach(no=>gc[no]=(gc[no]||0)+1);parsed.assists.forEach(no=>ac[no]=(ac[no]||0)+1);
+  Object.entries(gc).forEach(([no,cnt])=>{if(curGame.players[no])curGame.players[no].goals=cnt;});
+  Object.entries(ac).forEach(([no,cnt])=>{if(curGame.players[no])curGame.players[no].assists=cnt;});
+  document.getElementById('parsed-badge').style.display='inline-flex';
+  renderPlayerList();renderRpSupportList();updateAbsentDisplay();showToast('✅ 밴드 댓글 반영 완료!');
 }
 
-function applyParsedDirect(parsed) {
-  if (parsed.meta.date)     document.getElementById('game-date').value    = parsed.meta.date;
-  if (parsed.meta.round)    document.getElementById('game-round').value   = parsed.meta.round;
-  if (parsed.meta.venue)    document.getElementById('game-venue').value   = parsed.meta.venue;
-  if (parsed.meta.opponent) document.getElementById('game-opponent').value= parsed.meta.opponent;
-
-  if (parsed.result) {
-    curGame.result = parsed.result;
-    document.querySelectorAll('.result-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.result-btn').forEach(b => {
-      if (b.classList.contains(parsed.result) || (parsed.result==='none' && b.classList.contains('none-btn')))
-        b.classList.add('active');
-    });
-  }
-  if (parsed.score.us   !== null) document.getElementById('score-us').value   = parsed.score.us;
-  if (parsed.score.them !== null) document.getElementById('score-them').value = parsed.score.them;
-
-  parsed.attendance.forEach(no => { if(curGame.players[no]) curGame.players[no].att = true; });
-  parsed.absent.forEach(no => {
-    if(curGame.players[no]) { curGame.players[no].absent = true; curGame.players[no].att = false; }
-  });
-  parsed.support.forEach(no => { if(curGame.players[no]) curGame.players[no].support = true; });
-
-  const gc={}, ac={};
-  parsed.goals.forEach(no   => gc[no]=(gc[no]||0)+1);
-  parsed.assists.forEach(no => ac[no]=(ac[no]||0)+1);
-  Object.entries(gc).forEach(([no,cnt]) => { if(curGame.players[no]) curGame.players[no].goals   = cnt; });
-  Object.entries(ac).forEach(([no,cnt]) => { if(curGame.players[no]) curGame.players[no].assists = cnt; });
-
-  document.getElementById('parsed-badge').style.display = 'inline-flex';
-  renderPlayerList(); renderRpSupportList(); updateAbsentDisplay();
-  showToast('✅ 밴드 댓글 반영 완료!');
+function applyParsedMerge(parsed){
+  const vEl=document.getElementById('game-venue');const oEl=document.getElementById('game-opponent');
+  if(!vEl.value&&parsed.meta.venue)vEl.value=parsed.meta.venue;
+  if(!oEl.value&&parsed.meta.opponent)oEl.value=parsed.meta.opponent;
+  parsed.attendance.forEach(no=>{if(curGame.players[no]&&!curGame.players[no].att&&!curGame.players[no].absent)curGame.players[no].att=true;});
+  parsed.absent.forEach(no=>{if(curGame.players[no]){curGame.players[no].absent=true;curGame.players[no].att=false;}});
+  const gc={},ac={};
+  parsed.goals.forEach(no=>gc[no]=(gc[no]||0)+1);parsed.assists.forEach(no=>ac[no]=(ac[no]||0)+1);
+  Object.entries(gc).forEach(([no,cnt])=>{if(curGame.players[no]&&curGame.players[no].goals===0)curGame.players[no].goals=cnt;});
+  Object.entries(ac).forEach(([no,cnt])=>{if(curGame.players[no]&&curGame.players[no].assists===0)curGame.players[no].assists=cnt;});
+  document.getElementById('parsed-badge').style.display='inline-flex';
+  renderPlayerList();renderRpSupportList();updateAbsentDisplay();
 }
 
-function applyParsedMerge(parsed) {
-  const vEl = document.getElementById('game-venue');
-  const oEl = document.getElementById('game-opponent');
-  if (!vEl.value && parsed.meta.venue)    vEl.value = parsed.meta.venue;
-  if (!oEl.value && parsed.meta.opponent) oEl.value = parsed.meta.opponent;
-  if (!document.getElementById('game-date').value && parsed.meta.date)
-    document.getElementById('game-date').value = parsed.meta.date;
-
-  if (!curGame.result && parsed.result) {
-    curGame.result = parsed.result;
-    document.querySelectorAll('.result-btn').forEach(b => {
-      if (b.classList.contains(parsed.result)) b.classList.add('active');
-    });
-    if (parsed.score.us   !== null) document.getElementById('score-us').value   = parsed.score.us;
-    if (parsed.score.them !== null) document.getElementById('score-them').value = parsed.score.them;
-  }
-
-  parsed.attendance.forEach(no => {
-    if(curGame.players[no] && !curGame.players[no].att && !curGame.players[no].absent)
-      curGame.players[no].att = true;
-  });
-  parsed.absent.forEach(no => {
-    if(curGame.players[no]) { curGame.players[no].absent = true; curGame.players[no].att = false; }
-  });
-  parsed.support.forEach(no => { if(curGame.players[no]) curGame.players[no].support = true; });
-
-  const gc={}, ac={};
-  parsed.goals.forEach(no   => gc[no]=(gc[no]||0)+1);
-  parsed.assists.forEach(no => ac[no]=(ac[no]||0)+1);
-  Object.entries(gc).forEach(([no,cnt]) => {
-    if(curGame.players[no] && curGame.players[no].goals===0) curGame.players[no].goals = cnt;
-  });
-  Object.entries(ac).forEach(([no,cnt]) => {
-    if(curGame.players[no] && curGame.players[no].assists===0) curGame.players[no].assists = cnt;
-  });
-
-  document.getElementById('parsed-badge').style.display = 'inline-flex';
-  renderPlayerList(); renderRpSupportList(); updateAbsentDisplay();
-}
-
-function showParseResult(type, result) {
-  const el = document.getElementById(`parse-result-${type}`);
-  el.classList.add('show');
-
-  const fmt = (nos, suffix) => {
-    const counts = {};
-    nos.forEach(n => counts[n]=(counts[n]||0)+1);
-    return Object.entries(counts).map(([no,c]) => {
-      const name = PLAYERS.find(p=>p.no==no)?.name || no;
-      return c>1 ? `${name}(${c}${suffix})` : name;
-    }).join(', ');
-  };
-
-  const attNames    = result.attendance.map(no=>PLAYERS.find(p=>p.no===no)?.name||no).join(', ');
-  const supportNames= result.support.map(no=>PLAYERS.find(p=>p.no===no)?.name||no).join(', ');
-  const absentNames = result.absent.map(no=>PLAYERS.find(p=>p.no===no)?.name||no).join(', ');
-  const goalStr     = fmt(result.goals,   '골');
-  const assistStr   = fmt(result.assists, '어시');
-
-  el.innerHTML = [
-    result.meta.round   ? `<div class="parse-item"><span class="parse-dot">📅</span><span>${result.meta.date||''} · ${result.meta.round}회차 · vs ${result.meta.opponent||'?'}</span></div>` : '',
-    result.meta.venue   ? `<div class="parse-item"><span class="parse-dot">🏟</span><span>${result.meta.venue}</span></div>` : '',
-    result.result       ? `<div class="parse-item"><span class="parse-dot">🏆</span><span>결과: ${result.result==='win'?'승':result.result==='draw'?'무':'패'} ${result.score.us}:${result.score.them}</span></div>` : '',
-    attNames            ? `<div class="parse-item"><span class="parse-dot">✅</span><span>출석 ${result.attendance.length}명: ${attNames}</span></div>` : '',
-    supportNames        ? `<div class="parse-item"><span class="parse-dot">🦺</span><span>운영지원: ${supportNames}</span></div>` : '',
-    absentNames         ? `<div class="parse-item"><span class="parse-dot">🚨</span><span>무단불참: ${absentNames}</span></div>` : '',
-    goalStr             ? `<div class="parse-item"><span class="parse-dot">⚽</span><span>골: ${goalStr}</span></div>` : '',
-    assistStr           ? `<div class="parse-item"><span class="parse-dot">🎯</span><span>어시: ${assistStr}</span></div>` : '',
-    !result.result && !attNames ? `<div style="color:#a16207;">⚠️ 인식된 내용이 없어요. 형식을 확인해주세요.</div>` : '',
+function showParseResult(type,result){
+  const el=document.getElementById(`parse-result-${type}`);el.classList.add('show');
+  const fmt=(nos,suffix)=>{const counts={};nos.forEach(n=>counts[n]=(counts[n]||0)+1);return Object.entries(counts).map(([no,c])=>{const name=PLAYERS.find(p=>p.no==no)?.name||no;return c>1?`${name}(${c}${suffix})`:name;}).join(', ');};
+  const attNames=result.attendance.map(no=>PLAYERS.find(p=>p.no===no)?.name||no).join(', ');
+  const absentNames=result.absent.map(no=>PLAYERS.find(p=>p.no===no)?.name||no).join(', ');
+  const goalStr=fmt(result.goals,'골');const assistStr=fmt(result.assists,'어시');
+  el.innerHTML=[
+    result.meta.round?`<div class="parse-item"><span class="parse-dot">📅</span><span>${result.meta.date||''} · ${result.meta.round}회차 · vs ${result.meta.opponent||'?'}</span></div>`:'',
+    result.meta.venue?`<div class="parse-item"><span class="parse-dot">🏟</span><span>${result.meta.venue}</span></div>`:'',
+    result.result?`<div class="parse-item"><span class="parse-dot">🏆</span><span>결과: ${result.result==='win'?'승':result.result==='draw'?'무':'패'} ${result.score.us}:${result.score.them}</span></div>`:'',
+    attNames?`<div class="parse-item"><span class="parse-dot">✅</span><span>출석 ${result.attendance.length}명: ${attNames}</span></div>`:'',
+    absentNames?`<div class="parse-item"><span class="parse-dot">🚨</span><span>무단불참: ${absentNames}</span></div>`:'',
+    goalStr?`<div class="parse-item"><span class="parse-dot">⚽</span><span>골: ${goalStr}</span></div>`:'',
+    assistStr?`<div class="parse-item"><span class="parse-dot">🎯</span><span>어시: ${assistStr}</span></div>`:'',
+    !result.result&&!attNames?`<div style="color:#a16207;">⚠️ 인식된 내용이 없어요.</div>`:'',
   ].join('');
 }
 
-function renderPlayerList(filter='') {
-  const list = document.getElementById('player-list');
-  const filtered = PLAYERS.filter(p=>p.name.includes(filter)||String(p.no).includes(filter));
-  list.innerHTML = filtered.map(p => {
-    const d = curGame.players[p.no];
-    const rowClass = d.absent ? 'absent-row' : d.att ? 'present' : '';
-    return `
-    <div class="player-row ${rowClass}" id="prow-${p.no}">
-      <div class="player-no">${p.no===999?'—':p.no}</div>
-      <div class="player-name" style="${d.absent?'color:var(--red);':''}">${p.name}</div>
-      <button class="cell-btn att ${d.att&&!d.absent?'on':''}" onclick="toggleAtt(${p.no})">${d.att&&!d.absent?'✓':''}</button>
-      <button class="cell-btn supp ${d.support?'on':''}" onclick="toggleSupport(${p.no})" title="운영지원">${d.support?'🦺':''}</button>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
-        <div class="late-counter" style="opacity:${d.absent?'0.3':'1'};pointer-events:${d.absent?'none':'auto'};">
-          <button class="late-adj" onclick="adjLate(${p.no},-1)">−</button>
-          <span class="late-val" style="color:${d.late>0?'var(--gold)':'var(--gray2)'}">${d.late||'0'}</span>
-          <button class="late-adj" onclick="adjLate(${p.no},1)">+</button>
-        </div>
-        <button class="cell-btn absent-btn ${d.absent?'on':''}" onclick="toggleAbsent(${p.no})"
-          style="width:44px;height:22px;font-size:10px;margin:0;opacity:${d.late>0?'0.3':'1'};pointer-events:${d.late>0?'none':'auto'};">
-          무단
-        </button>
-      </div>
-      <button class="counter-btn ${d.goals>0?'has-goal':''}" onclick="addGoal(${p.no})" oncontextmenu="subGoal(event,${p.no})">${d.goals||'—'}</button>
-      <button class="counter-btn ${d.assists>0?'has-assist':''}" onclick="addAssist(${p.no})" oncontextmenu="subAssist(event,${p.no})">${d.assists||'—'}</button>
-      <button class="mom-btn ${d.mom?'on':''}" onclick="toggleMom(${p.no})">⭐</button>
-    </div>`;
+function renderPlayerList(filter=''){
+  const list=document.getElementById('player-list');
+  const filtered=PLAYERS.filter(p=>p.name.includes(filter)||String(p.no).includes(filter));
+  list.innerHTML=filtered.map(p=>{
+    const d=curGame.players[p.no];
+    const rowClass=d.absent?'absent-row':d.att?'present':'';
+    return`<div class="player-row ${rowClass}"><div class="player-no">${p.no===999?'—':p.no}</div><div class="player-name" style="${d.absent?'color:var(--red);':''}">${p.name}</div><button class="cell-btn att ${d.att&&!d.absent?'on':''}" onclick="toggleAtt(${p.no})">${d.att&&!d.absent?'✓':''}</button><button class="cell-btn supp ${d.support?'on':''}" onclick="toggleSupport(${p.no})">${d.support?'🦺':''}</button><div style="display:flex;flex-direction:column;align-items:center;gap:2px;"><div class="late-counter" style="opacity:${d.absent?'0.3':'1'};pointer-events:${d.absent?'none':'auto'};"><button class="late-adj" onclick="adjLate(${p.no},-1)">−</button><span class="late-val" style="color:${d.late>0?'var(--gold)':'var(--gray2)'}">${d.late||'0'}</span><button class="late-adj" onclick="adjLate(${p.no},1)">+</button></div><button class="cell-btn absent-btn ${d.absent?'on':''}" onclick="toggleAbsent(${p.no})" style="width:44px;height:22px;font-size:10px;margin:0;opacity:${d.late>0?'0.3':'1'};pointer-events:${d.late>0?'none':'auto'};">무단</button></div><button class="counter-btn ${d.goals>0?'has-goal':''}" onclick="addGoal(${p.no})" oncontextmenu="subGoal(event,${p.no})">${d.goals||'—'}</button><button class="counter-btn ${d.assists>0?'has-assist':''}" onclick="addAssist(${p.no})" oncontextmenu="subAssist(event,${p.no})">${d.assists||'—'}</button><button class="mom-btn ${d.mom?'on':''}" onclick="toggleMom(${p.no})">⭐</button></div>`;
   }).join('');
-  updateAbsentDisplay();
-  updateMomDisplay();
+  updateAbsentDisplay();updateMomDisplay();
 }
 
-function updateAbsentDisplay() {
-  const absentNames = PLAYERS.filter(p=>curGame.players[p.no].absent).map(p=>p.name);
-  const el = document.getElementById('absent-list-display');
-  if (el) el.textContent = absentNames.length ? `🚨 ${absentNames.join(', ')}` : '없음';
-}
-function updateMomDisplay() {
-  const mom = PLAYERS.find(p=>curGame.players[p.no].mom);
-  const el = document.getElementById('mom-name-display');
-  if (el) el.value = mom ? mom.name : '';
-}
+function updateAbsentDisplay(){const n=PLAYERS.filter(p=>curGame.players[p.no].absent).map(p=>p.name);const el=document.getElementById('absent-list-display');if(el)el.textContent=n.length?`🚨 ${n.join(', ')}`:'없음';}
+function updateMomDisplay(){const m=PLAYERS.find(p=>curGame.players[p.no].mom);const el=document.getElementById('mom-name-display');if(el)el.value=m?m.name:'';}
+function filterPlayers(){renderPlayerList(document.getElementById('player-search').value.trim());}
+window.filterPlayers=filterPlayers;
+function toggleAtt(no){if(curGame.players[no].absent)return;curGame.players[no].att=!curGame.players[no].att;renderPlayerList(document.getElementById('player-search').value);}
+window.toggleAtt=toggleAtt;
+function toggleSupport(no){curGame.players[no].support=!curGame.players[no].support;if(curGame.players[no].support){curGame.players[no].att=true;curGame.players[no].absent=false;}renderPlayerList(document.getElementById('player-search').value);}
+window.toggleSupport=toggleSupport;
+function toggleAbsent(no){if(curGame.players[no].late>0)return;curGame.players[no].absent=!curGame.players[no].absent;if(curGame.players[no].absent)curGame.players[no].att=false;renderPlayerList(document.getElementById('player-search').value);}
+window.toggleAbsent=toggleAbsent;
+function adjLate(no,d){if(curGame.players[no].absent)return;curGame.players[no].late=Math.max(0,(curGame.players[no].late||0)+d);renderPlayerList(document.getElementById('player-search').value);}
+window.adjLate=adjLate;
+function addGoal(no){curGame.players[no].goals++;renderPlayerList(document.getElementById('player-search').value);}
+window.addGoal=addGoal;
+function subGoal(e,no){e.preventDefault();curGame.players[no].goals=Math.max(0,curGame.players[no].goals-1);renderPlayerList(document.getElementById('player-search').value);}
+window.subGoal=subGoal;
+function addAssist(no){curGame.players[no].assists++;renderPlayerList(document.getElementById('player-search').value);}
+window.addAssist=addAssist;
+function subAssist(e,no){e.preventDefault();curGame.players[no].assists=Math.max(0,curGame.players[no].assists-1);renderPlayerList(document.getElementById('player-search').value);}
+window.subAssist=subAssist;
+function toggleMom(no){PLAYERS.forEach(p=>curGame.players[p.no].mom=false);curGame.players[no].mom=true;renderPlayerList(document.getElementById('player-search').value);}
+window.toggleMom=toggleMom;
+function selectAll(val){PLAYERS.forEach(p=>{curGame.players[p.no].att=val;if(val)curGame.players[p.no].absent=false;});renderPlayerList(document.getElementById('player-search').value);}
+window.selectAll=selectAll;
 
-function filterPlayers() { renderPlayerList(document.getElementById('player-search').value.trim()); }
-function toggleAtt(no) { if(curGame.players[no].absent) return; curGame.players[no].att = !curGame.players[no].att; renderPlayerList(document.getElementById('player-search').value); }
-function toggleSupport(no) {
-  curGame.players[no].support = !curGame.players[no].support;
-  if (curGame.players[no].support) { curGame.players[no].att = true; curGame.players[no].absent = false; }
-  renderPlayerList(document.getElementById('player-search').value);
+function renderRpSupportList(){
+  const c=document.getElementById('rp-support-list');
+  c.innerHTML=RP_ITEMS.map(item=>`<div style="margin-bottom:12px;"><div style="font-size:12px;font-weight:700;color:var(--gray3);margin-bottom:6px;">${item.label} <span style="color:var(--gray2);font-weight:400;">(+${item.rp.toLocaleString()}원${item.counter?'/회':''})</span></div><div style="display:flex;flex-wrap:wrap;gap:6px;">${PLAYERS.map(p=>{const val=curGame.rpSupport[p.no][item.key]||0;if(item.counter){return`<div style="display:flex;align-items:center;gap:4px;background:${val>0?'#EEF6FF':'var(--gray0)'};border:1.5px solid ${val>0?'var(--blue)':'var(--gray1)'};border-radius:8px;padding:4px 6px;"><span style="font-size:12px;font-weight:700;color:${val>0?'var(--blue)':'var(--gray3)'};">${p.name}</span><button onclick="adjRpCounter(${p.no},'${item.key}',-1)" style="width:20px;height:20px;border-radius:50%;border:1px solid var(--gray1);background:white;font-size:12px;cursor:pointer;">−</button><span style="font-size:13px;font-weight:900;min-width:14px;text-align:center;">${val}</span><button onclick="adjRpCounter(${p.no},'${item.key}',1)" style="width:20px;height:20px;border-radius:50%;border:1px solid var(--gray1);background:white;font-size:12px;cursor:pointer;">+</button></div>`;}else{return`<button onclick="toggleRpSupport(${p.no},'${item.key}')" style="padding:5px 10px;border-radius:8px;border:1.5px solid ${val?'var(--blue)':'var(--gray1)'};background:${val?'var(--blue)':'white'};color:${val?'white':'var(--gray3)'};font-size:12px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;">${p.name}</button>`;}}).join('')}</div></div>`).join('');
 }
-function toggleAbsent(no) {
-  if(curGame.players[no].late > 0) return;
-  curGame.players[no].absent = !curGame.players[no].absent;
-  if(curGame.players[no].absent) curGame.players[no].att = false;
-  renderPlayerList(document.getElementById('player-search').value);
-}
-function adjLate(no,d) {
-  if(curGame.players[no].absent) return;
-  curGame.players[no].late=Math.max(0,(curGame.players[no].late||0)+d);
-  renderPlayerList(document.getElementById('player-search').value);
-}
-function addGoal(no)    { curGame.players[no].goals++;   renderPlayerList(document.getElementById('player-search').value); }
-function subGoal(e,no)  { e.preventDefault(); curGame.players[no].goals=Math.max(0,curGame.players[no].goals-1); renderPlayerList(document.getElementById('player-search').value); }
-function addAssist(no)  { curGame.players[no].assists++; renderPlayerList(document.getElementById('player-search').value); }
-function subAssist(e,no){ e.preventDefault(); curGame.players[no].assists=Math.max(0,curGame.players[no].assists-1); renderPlayerList(document.getElementById('player-search').value); }
-function toggleMom(no)  { PLAYERS.forEach(p=>curGame.players[p.no].mom=false); curGame.players[no].mom=true; renderPlayerList(document.getElementById('player-search').value); }
-function selectAll(val) { PLAYERS.forEach(p=>{ curGame.players[p.no].att=val; if(val) curGame.players[p.no].absent=false; }); renderPlayerList(document.getElementById('player-search').value); }
+function toggleRpSupport(no,key){const item=RP_ITEMS.find(i=>i.key===key);curGame.rpSupport[no][key]=curGame.rpSupport[no][key]?0:item.rp;renderRpSupportList();}
+window.toggleRpSupport=toggleRpSupport;
+function adjRpCounter(no,key,delta){const item=RP_ITEMS.find(i=>i.key===key);const cur=Math.round((curGame.rpSupport[no][key]||0)/item.rp);curGame.rpSupport[no][key]=Math.max(0,cur+delta)*item.rp;renderRpSupportList();}
+window.adjRpCounter=adjRpCounter;
 
-function renderRpSupportList() {
-  const c = document.getElementById('rp-support-list');
-  c.innerHTML = RP_ITEMS.map(item=>`
-    <div style="margin-bottom:12px;">
-      <div style="font-size:12px;font-weight:700;color:var(--gray3);margin-bottom:6px;">
-        ${item.label} <span style="color:var(--gray2);font-weight:400;">(+${item.rp.toLocaleString()}원${item.counter?'/회':''})</span>
-      </div>
-      <div style="display:flex;flex-wrap:wrap;gap:6px;">
-        ${PLAYERS.map(p=>{
-          const val = curGame.rpSupport[p.no][item.key]||0;
-          if (item.counter) {
-            return `<div style="display:flex;align-items:center;gap:4px;background:${val>0?'#EEF6FF':'var(--gray0)'};border:1.5px solid ${val>0?'var(--blue)':'var(--gray1)'};border-radius:8px;padding:4px 6px;">
-              <span style="font-size:12px;font-weight:700;color:${val>0?'var(--blue)':'var(--gray3)'};">${p.name}</span>
-              <button onclick="adjRpCounter(${p.no},'${item.key}',-1)" style="width:20px;height:20px;border-radius:50%;border:1px solid var(--gray1);background:white;font-size:12px;font-weight:900;cursor:pointer;line-height:1;color:var(--gray3);">−</button>
-              <span style="font-size:13px;font-weight:900;min-width:14px;text-align:center;color:${val>0?'var(--blue)':'var(--gray2)'};">${val}</span>
-              <button onclick="adjRpCounter(${p.no},'${item.key}',1)" style="width:20px;height:20px;border-radius:50%;border:1px solid var(--gray1);background:white;font-size:12px;font-weight:900;cursor:pointer;line-height:1;color:var(--gray3);">+</button>
-            </div>`;
-          } else {
-            return `<button onclick="toggleRpSupport(${p.no},'${item.key}')"
-              style="padding:5px 10px;border-radius:8px;border:1.5px solid ${val?'var(--blue)':'var(--gray1)'};background:${val?'var(--blue)':'white'};color:${val?'white':'var(--gray3)'};font-size:12px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;">${p.name}</button>`;
-          }
-        }).join('')}
-      </div>
-    </div>`).join('');
+function toggleFriendly(on){
+  document.getElementById('friendly-teams').style.display=on?'block':'none';
+  document.getElementById('result-card').style.display=on?'none':'block';
+  document.getElementById('opponent-row').style.display=on?'none':'flex';
+  if(on){curGame.result='none';document.getElementById('game-opponent').value='';document.querySelectorAll('.result-btn').forEach(b=>b.classList.remove('active'));}
 }
-function toggleRpSupport(no,key) { const item=RP_ITEMS.find(i=>i.key===key); curGame.rpSupport[no][key]=curGame.rpSupport[no][key]?0:item.rp; renderRpSupportList(); }
-function adjRpCounter(no,key,delta) {
-  const item = RP_ITEMS.find(i=>i.key===key);
-  const cur = Math.round((curGame.rpSupport[no][key]||0) / item.rp);
-  const next = Math.max(0, cur + delta);
-  curGame.rpSupport[no][key] = next * item.rp;
-  renderRpSupportList();
+window.toggleFriendly=toggleFriendly;
+
+function setResult(r,el){
+  curGame.result=r;document.querySelectorAll('.result-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');
+  const ra=document.getElementById('none-reason-area');const sr=document.querySelector('.score-row');
+  if(r==='none'){ra.style.display='block';sr.style.display='none';}
+  else{ra.style.display='none';sr.style.display='flex';curGame.noneReason='';document.querySelectorAll('.reason-btn').forEach(b=>b.classList.remove('active'));}
 }
+window.setResult=setResult;
 
-let editingGameId = null;
+function setReason(reason){curGame.noneReason=reason;document.querySelectorAll('.reason-btn').forEach(b=>b.classList.toggle('active',b.textContent.includes(reason)));}
+window.setReason=setReason;
 
-function editGame(id) {
-  const g = state.games.find(g => String(g.id) === String(id));
-  if (!g) return;
-  editingGameId = id;
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('page-input').classList.add('active');
-  document.querySelector('.tab').classList.add('active');
-  window.scrollTo(0,0);
-  const banner = document.getElementById('edit-banner');
-  banner.style.display = 'flex';
-  document.getElementById('edit-banner-info').textContent = `${g.date} · ${g.round}회차 · vs ${g.opponent||'자체전'}`;
-  document.getElementById('save-btn').textContent = '✏️ 경기 기록 수정 저장';
-  document.getElementById('save-btn').style.background = 'var(--gold)';
-  document.getElementById('game-date').value    = g.date || '';
-  document.getElementById('game-round').value   = g.round || '';
-  document.getElementById('game-venue').value   = g.venue || '';
-  document.getElementById('game-opponent').value= g.opponent || '';
-  document.getElementById('game-mercenary').checked = g.merch || false;
-  document.getElementById('game-friendly').checked  = g.friendly || false;
-  document.getElementById('team-blue').value    = g.teamBlue || '';
-  document.getElementById('team-white').value   = g.teamWhite || '';
-  document.getElementById('score-us').value     = g.scoreUs ?? 0;
-  document.getElementById('score-them').value   = g.scoreThem ?? 0;
-  document.getElementById('game-feedback').value= g.feedback || '';
-  toggleFriendly(g.friendly || false);
-  document.querySelectorAll('.result-btn').forEach(b => b.classList.remove('active'));
-  if (g.result) {
-    document.querySelectorAll('.result-btn').forEach(b => {
-      if (b.classList.contains(g.result) || (g.result === 'none' && b.classList.contains('none-btn')))
-        b.classList.add('active');
-    });
-  }
-  const reasonArea = document.getElementById('none-reason-area');
-  const scoreRow   = document.querySelector('.score-row');
-  if (g.result === 'none') {
-    reasonArea.style.display = 'block'; scoreRow.style.display = 'none';
-    if (g.noneReason) {
-      document.querySelectorAll('.reason-btn').forEach(b => {
-        b.classList.toggle('active', b.textContent.includes(g.noneReason));
-      });
-    }
-  } else { reasonArea.style.display = 'none'; scoreRow.style.display = 'flex'; }
-  curGame = initCurGame();
-  curGame.result = g.result;
-  PLAYERS.forEach(p => {
-    if (g.players[p.no]) curGame.players[p.no] = JSON.parse(JSON.stringify(g.players[p.no]));
-    if (g.rpSupport && g.rpSupport[p.no]) curGame.rpSupport[p.no] = JSON.parse(JSON.stringify(g.rpSupport[p.no]));
-  });
-  renderPlayerList(); renderRpSupportList(); setInputMode('manual');
-  showToast('✏️ 수정 모드로 불러왔어요');
-}
-
-function cancelEdit() {
-  editingGameId = null;
-  document.getElementById('edit-banner').style.display = 'none';
-  document.getElementById('save-btn').textContent = '💾 경기 기록 저장';
-  document.getElementById('save-btn').style.background = 'var(--blue)';
-  resetInputForm();
-  showToast('수정이 취소됐어요');
-}
-
-function toggleFriendly(on) {
-  document.getElementById('friendly-teams').style.display = on ? 'block' : 'none';
-  document.getElementById('result-card').style.display    = on ? 'none'  : 'block';
-  document.getElementById('opponent-row').style.display   = on ? 'none'  : 'flex';
-  if (on) {
-    curGame.result = 'none';
-    document.getElementById('game-opponent').value = '';
-    document.querySelectorAll('.result-btn').forEach(b => b.classList.remove('active'));
-  }
-}
-
-function setResult(r,el) {
-  curGame.result = r;
-  document.querySelectorAll('.result-btn').forEach(b=>b.classList.remove('active'));
-  el.classList.add('active');
-  const reasonArea = document.getElementById('none-reason-area');
-  const scoreRow   = document.querySelector('.score-row');
-  if (r === 'none') { reasonArea.style.display = 'block'; scoreRow.style.display = 'none'; }
-  else {
-    reasonArea.style.display = 'none'; scoreRow.style.display = 'flex';
-    curGame.noneReason = '';
-    document.querySelectorAll('.reason-btn').forEach(b=>b.classList.remove('active'));
-  }
-}
-
-function setReason(reason) {
-  curGame.noneReason = reason;
-  document.querySelectorAll('.reason-btn').forEach(b => {
-    b.classList.toggle('active', b.textContent.includes(reason));
-  });
-}
-
-function saveGame() {
+async function saveGame(){
   const date=document.getElementById('game-date').value;
   if(!date){showToast('날짜를 입력해주세요');return;}
   const game={
-    id: editingGameId || Date.now(),
-    date, round:document.getElementById('game-round').value,
+    id:editingGameId||Date.now(),date,
+    round:document.getElementById('game-round').value,
     venue:document.getElementById('game-venue').value.trim(),
     opponent:document.getElementById('game-opponent').value.trim(),
     merch:document.getElementById('game-mercenary').checked,
     friendly:document.getElementById('game-friendly').checked,
-    teamBlue: document.getElementById('team-blue').value.trim(),
-    teamWhite: document.getElementById('team-white').value.trim(),
+    teamBlue:document.getElementById('team-blue').value.trim(),
+    teamWhite:document.getElementById('team-white').value.trim(),
     result:curGame.result,
     scoreUs:parseInt(document.getElementById('score-us').value)||0,
     scoreThem:parseInt(document.getElementById('score-them').value)||0,
     feedback:document.getElementById('game-feedback').value.trim(),
-    noneReason: curGame.noneReason || '',
+    noneReason:curGame.noneReason||'',
     players:JSON.parse(JSON.stringify(curGame.players)),
     rpSupport:JSON.parse(JSON.stringify(curGame.rpSupport)),
   };
-  if (editingGameId) {
-    const old = state.games.find(g => String(g.id) === String(editingGameId));
-    if (old) {
-      PLAYERS.forEach(p => {
-        const oldRp = RP_ITEMS.reduce((s,i)=>s+(old.rpSupport?.[p.no]?.[i.key]||0),0);
-        const newRp = RP_ITEMS.reduce((s,i)=>s+(game.rpSupport[p.no][i.key]||0),0);
-        if(!state.rpLog[p.no]) state.rpLog[p.no]=0;
-        state.rpLog[p.no] = state.rpLog[p.no] - oldRp + newRp;
-      });
-    }
-    state.games = state.games.map(g => String(g.id)===String(editingGameId) ? game : g);
-    editingGameId = null;
+  if(editingGameId){
+    const old=state.games.find(g=>String(g.id)===String(editingGameId));
+    if(old){PLAYERS.forEach(p=>{const oldRp=RP_ITEMS.reduce((s,i)=>s+(old.rpSupport?.[p.no]?.[i.key]||0),0);const newRp=RP_ITEMS.reduce((s,i)=>s+(game.rpSupport[p.no][i.key]||0),0);if(!state.rpLog[p.no])state.rpLog[p.no]=0;state.rpLog[p.no]=state.rpLog[p.no]-oldRp+newRp;});}
+    state.games=state.games.map(g=>String(g.id)===String(editingGameId)?game:g);
+    editingGameId=null;
     document.getElementById('edit-banner').style.display='none';
     document.getElementById('save-btn').textContent='💾 경기 기록 저장';
     document.getElementById('save-btn').style.background='var(--blue)';
-    showToast('✅ 경기 기록이 수정됐습니다!');
-  } else {
-    PLAYERS.forEach(p=>{
-      const rp=RP_ITEMS.reduce((s,i)=>s+(game.rpSupport[p.no][i.key]||0),0);
-      if(!state.rpLog[p.no]) state.rpLog[p.no]=0;
-      state.rpLog[p.no]+=rp;
-    });
+  }else{
+    PLAYERS.forEach(p=>{const rp=RP_ITEMS.reduce((s,i)=>s+(game.rpSupport[p.no][i.key]||0),0);if(!state.rpLog[p.no])state.rpLog[p.no]=0;state.rpLog[p.no]+=rp;});
     state.games.push(game);
-    showToast('✅ 경기 기록이 저장됐습니다!');
   }
-  saveState(state);
+  await saveToFirebase();
+  showToast('✅ 저장 완료!');
   resetInputForm();
 }
+window.saveGame=saveGame;
 
-function resetInputForm() {
-  curGame=initCurGame(); pendingParsed=null;
+function resetInputForm(){
+  curGame=initCurGame();pendingParsed=null;
   document.getElementById('game-round').value=state.games.length+1;
-  document.getElementById('game-opponent').value='';
-  document.getElementById('game-venue').value='';
-  document.getElementById('score-us').value=0;
-  document.getElementById('score-them').value=0;
-  document.getElementById('game-feedback').value='';
-  document.getElementById('game-mercenary').checked=false;
-  document.getElementById('game-friendly').checked=false;
-  document.getElementById('team-blue').value='';
-  document.getElementById('team-white').value='';
-  document.getElementById('friendly-teams').style.display='none';
-  document.getElementById('result-card').style.display='block';
+  document.getElementById('game-opponent').value='';document.getElementById('game-venue').value='';
+  document.getElementById('score-us').value=0;document.getElementById('score-them').value=0;
+  document.getElementById('game-feedback').value='';document.getElementById('game-mercenary').checked=false;
+  document.getElementById('game-friendly').checked=false;document.getElementById('team-blue').value='';document.getElementById('team-white').value='';
+  document.getElementById('friendly-teams').style.display='none';document.getElementById('result-card').style.display='block';
   document.getElementById('opponent-row').style.display='flex';
-  document.getElementById('band-text-att').value='';
-  document.getElementById('band-text-result').value='';
-  document.getElementById('band-text-mom').value='';
+  document.getElementById('band-text-att').value='';document.getElementById('band-text-result').value='';document.getElementById('band-text-mom').value='';
   document.getElementById('parsed-badge').style.display='none';
   document.getElementById('conflict-banner').classList.remove('show');
   document.getElementById('parse-result-att').classList.remove('show');
@@ -1124,28 +658,49 @@ function resetInputForm() {
   document.querySelectorAll('.reason-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('none-reason-area').style.display='none';
   document.querySelector('.score-row').style.display='flex';
-  renderPlayerList(); renderRpSupportList();
+  renderPlayerList();renderRpSupportList();
 }
 
-function renderRpManual() {
+function editGame(id){
+  const g=state.games.find(g=>String(g.id)===String(id));if(!g)return;
+  editingGameId=id;
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-input').classList.add('active');document.querySelector('.tab').classList.add('active');window.scrollTo(0,0);
+  const banner=document.getElementById('edit-banner');banner.style.display='flex';
+  document.getElementById('edit-banner-info').textContent=`${g.date} · ${g.round}회차 · vs ${g.opponent||'자체전'}`;
+  document.getElementById('save-btn').textContent='✏️ 수정 저장';document.getElementById('save-btn').style.background='var(--gold)';
+  document.getElementById('game-date').value=g.date||'';document.getElementById('game-round').value=g.round||'';
+  document.getElementById('game-venue').value=g.venue||'';document.getElementById('game-opponent').value=g.opponent||'';
+  document.getElementById('game-mercenary').checked=g.merch||false;document.getElementById('game-friendly').checked=g.friendly||false;
+  document.getElementById('team-blue').value=g.teamBlue||'';document.getElementById('team-white').value=g.teamWhite||'';
+  document.getElementById('score-us').value=g.scoreUs??0;document.getElementById('score-them').value=g.scoreThem??0;
+  document.getElementById('game-feedback').value=g.feedback||'';
+  toggleFriendly(g.friendly||false);
+  document.querySelectorAll('.result-btn').forEach(b=>b.classList.remove('active'));
+  if(g.result){document.querySelectorAll('.result-btn').forEach(b=>{if(b.classList.contains(g.result)||(g.result==='none'&&b.classList.contains('none-btn')))b.classList.add('active');});}
+  if(g.result==='none'){document.getElementById('none-reason-area').style.display='block';document.querySelector('.score-row').style.display='none';}
+  curGame=initCurGame();curGame.result=g.result;
+  PLAYERS.forEach(p=>{if(g.players[p.no])curGame.players[p.no]=JSON.parse(JSON.stringify(g.players[p.no]));if(g.rpSupport&&g.rpSupport[p.no])curGame.rpSupport[p.no]=JSON.parse(JSON.stringify(g.rpSupport[p.no]));});
+  renderPlayerList();renderRpSupportList();setInputMode('manual');showToast('✏️ 수정 모드');
+}
+window.editGame=editGame;
+
+function cancelEdit(){editingGameId=null;document.getElementById('edit-banner').style.display='none';document.getElementById('save-btn').textContent='💾 경기 기록 저장';document.getElementById('save-btn').style.background='var(--blue)';resetInputForm();showToast('수정 취소');}
+window.cancelEdit=cancelEdit;
+
+function renderRpManual(){
   const c=document.getElementById('rp-manual-list');
-  c.innerHTML=PLAYERS.map(p=>{
-    const cur=state.rpLog[p.no]||0;
-    return `<div class="rp-row">
-      <div style="font-size:11px;font-weight:700;color:var(--gray2);text-align:center;">${p.no}</div>
-      <div style="font-size:13px;font-weight:700;">${p.name}</div>
-      <input type="number" id="rp-adj-${p.no}" class="rp-input" placeholder="0">
-      <div style="font-size:13px;font-weight:700;text-align:center;color:${cur>=0?'var(--blue)':'var(--red)'};">${cur>0?'+':''}${cur.toLocaleString()}</div>
-    </div>`;
-  }).join('');
-}
-function saveRpManual() {
-  PLAYERS.forEach(p=>{const v=parseInt(document.getElementById(`rp-adj-${p.no}`).value)||0;if(!state.rpLog[p.no])state.rpLog[p.no]=0;state.rpLog[p.no]+=v;});
-  saveState(state); renderRpManual(); showToast('💰 RP 저장 완료');
+  c.innerHTML=PLAYERS.map(p=>{const cur=state.rpLog[p.no]||0;return`<div class="rp-row"><div style="font-size:11px;font-weight:700;color:var(--gray2);text-align:center;">${p.no}</div><div style="font-size:13px;font-weight:700;">${p.name}</div><input type="number" id="rp-adj-${p.no}" class="rp-input" placeholder="0"><div style="font-size:13px;font-weight:700;text-align:center;color:${cur>=0?'var(--blue)':'var(--red)'};">${cur>0?'+':''}${cur.toLocaleString()}</div></div>`;}).join('');
 }
 
-function renderDashboard() {
-  const games=state.games;
+async function saveRpManual(){
+  PLAYERS.forEach(p=>{const v=parseInt(document.getElementById(`rp-adj-${p.no}`).value)||0;if(!state.rpLog[p.no])state.rpLog[p.no]=0;state.rpLog[p.no]+=v;});
+  await saveToFirebase();renderRpManual();showToast('💰 RP 저장 완료');
+}
+window.saveRpManual=saveRpManual;
+
+function renderDashboard(){
+  const games=state.games||[];
   const nonF=games.filter(g=>g.result&&g.result!=='none'&&!g.friendly);
   const wins=nonF.filter(g=>g.result==='win').length;
   const draws=nonF.filter(g=>g.result==='draw').length;
@@ -1153,156 +708,68 @@ function renderDashboard() {
   const wr=nonF.length?Math.round(wins/nonF.length*1000)/10:0;
   const tg=games.reduce((s,g)=>s+(g.scoreUs||0),0);
   const tc=games.reduce((s,g)=>s+(g.scoreThem||0),0);
-  document.getElementById('d-win').textContent=wins;
-  document.getElementById('d-draw').textContent=draws;
-  document.getElementById('d-loss').textContent=losses;
-  document.getElementById('d-total-games').textContent=games.length;
-  document.getElementById('d-win-rate').textContent=wr+'%';
-  document.getElementById('d-total-goals').textContent=tg;
-  const diff=tg-tc;
-  const dEl=document.getElementById('d-goal-diff');
-  dEl.textContent=(diff>=0?'+':'')+diff;
-  dEl.style.color=diff>=0?'var(--green)':'var(--red)';
-  const stats={};
-  PLAYERS.forEach(p=>{stats[p.no]={name:p.name,no:p.no,att:0,goals:0,assists:0,mom:0,absent:0,rp:state.rpLog[p.no]||0};});
-  games.forEach(g=>{PLAYERS.forEach(p=>{
-    const d=g.players[p.no];if(!d)return;
-    if(d.att) stats[p.no].att++;
-    stats[p.no].goals+=d.goals||0;
-    stats[p.no].assists+=d.assists||0;
-    if(d.mom) stats[p.no].mom++;
-    if(d.absent) stats[p.no].absent++;
-  });});
+  document.getElementById('d-win').textContent=wins;document.getElementById('d-draw').textContent=draws;document.getElementById('d-loss').textContent=losses;
+  document.getElementById('d-total-games').textContent=games.length;document.getElementById('d-win-rate').textContent=wr+'%';document.getElementById('d-total-goals').textContent=tg;
+  const diff=tg-tc;const dEl=document.getElementById('d-goal-diff');dEl.textContent=(diff>=0?'+':'')+diff;dEl.style.color=diff>=0?'var(--green)':'var(--red)';
+  const stats={};PLAYERS.forEach(p=>{stats[p.no]={name:p.name,no:p.no,att:0,goals:0,assists:0,mom:0,absent:0,rp:state.rpLog[p.no]||0};});
+  games.forEach(g=>{PLAYERS.forEach(p=>{const d=g.players?.[p.no];if(!d)return;if(d.att)stats[p.no].att++;stats[p.no].goals+=d.goals||0;stats[p.no].assists+=d.assists||0;if(d.mom)stats[p.no].mom++;if(d.absent)stats[p.no].absent++;});});
   renderRanking('goal-ranking',Object.values(stats).filter(s=>s.goals>0).sort((a,b)=>b.goals-a.goals),'goals','골','var(--green)');
   renderRanking('assist-ranking',Object.values(stats).filter(s=>s.assists>0).sort((a,b)=>b.assists-a.assists),'assists','어시','var(--blue)');
-  const totalG=games.length;
-  const attS=Object.values(stats).sort((a,b)=>b.att-a.att).slice(0,10).map(s=>({...s,attRate:totalG?Math.round(s.att/totalG*100):0}));
+  const totalG=games.length;const attS=Object.values(stats).sort((a,b)=>b.att-a.att).slice(0,10).map(s=>({...s,attRate:totalG?Math.round(s.att/totalG*100):0}));
   renderAttRanking('att-ranking',attS);
   const absentS=Object.values(stats).filter(s=>s.absent>0).sort((a,b)=>b.absent-a.absent);
-  const abEl=document.getElementById('absent-ranking');
-  abEl.innerHTML=absentS.length?absentS.map((s,i)=>`
-    <div class="ranking-row">
-      <div class="rank-no">${i+1}</div>
-      <div class="rank-name">${s.name}</div>
-      <div class="rank-val" style="color:var(--red)">${s.absent}</div>
-      <div class="rank-sub">회</div>
-    </div>`).join(''):'<div style="font-size:13px;color:var(--green);padding:12px 0;">무단불참자 없음 👍</div>';
-  renderRpRanking('rp-ranking',Object.values(stats).sort((a,b)=>b.rp-a.rp).slice(0,10));
+  document.getElementById('absent-ranking').innerHTML=absentS.length?absentS.map((s,i)=>`<div class="ranking-row"><div class="rank-no">${i+1}</div><div class="rank-name">${s.name}</div><div class="rank-val" style="color:var(--red)">${s.absent}</div><div class="rank-sub">회</div></div>`).join(''):'<div style="font-size:13px;color:var(--green);padding:12px 0;">무단불참자 없음 👍</div>';
+  document.getElementById('rp-ranking').innerHTML=Object.values(stats).sort((a,b)=>b.rp-a.rp).slice(0,10).map((s,i)=>`<div class="ranking-row"><div class="rank-no">${i+1}</div><div class="rank-name">${s.name}</div><div class="rank-val" style="color:${s.rp>=0?'var(--gold)':'var(--red)'}">${s.rp>=0?'+':''}${s.rp.toLocaleString()}</div><div class="rank-sub">RP</div></div>`).join('');
 }
 
-function renderRanking(id,data,field,unit,color) {
-  const el=document.getElementById(id);
-  if(!data.length){el.innerHTML='<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">데이터 없음</div></div>';return;}
-  el.innerHTML=data.slice(0,10).map((s,i)=>`
-    <div class="ranking-row">
-      <div class="rank-no">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</div>
-      <div class="rank-name">${s.name}</div>
-      <div class="rank-val" style="color:${color}">${s[field]}</div>
-      <div class="rank-sub">${unit}</div>
-    </div>`).join('');
-}
-function renderAttRanking(id,data) {
-  document.getElementById(id).innerHTML=data.map((s,i)=>`
-    <div class="ranking-row">
-      <div class="rank-no">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</div>
-      <div class="rank-name">${s.name}</div>
-      <div class="rank-val" style="color:var(--sky)">${s.att}</div>
-      <div class="rank-sub">(${s.attRate}%)</div>
-    </div>`).join('');
-}
-function renderRpRanking(id,data) {
-  document.getElementById(id).innerHTML=data.map((s,i)=>`
-    <div class="ranking-row">
-      <div class="rank-no">${i+1}</div>
-      <div class="rank-name">${s.name}</div>
-      <div class="rank-val" style="color:${s.rp>=0?'var(--gold)':'var(--red)'}">${s.rp>=0?'+':''}${s.rp.toLocaleString()}</div>
-      <div class="rank-sub">RP</div>
-    </div>`).join('');
-}
+function renderRanking(id,data,field,unit,color){const el=document.getElementById(id);if(!data.length){el.innerHTML='<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">데이터 없음</div></div>';return;}el.innerHTML=data.slice(0,10).map((s,i)=>`<div class="ranking-row"><div class="rank-no">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</div><div class="rank-name">${s.name}</div><div class="rank-val" style="color:${color}">${s[field]}</div><div class="rank-sub">${unit}</div></div>`).join('');}
+function renderAttRanking(id,data){document.getElementById(id).innerHTML=data.map((s,i)=>`<div class="ranking-row"><div class="rank-no">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</div><div class="rank-name">${s.name}</div><div class="rank-val" style="color:var(--sky)">${s.att}</div><div class="rank-sub">(${s.attRate}%)</div></div>`).join('');}
 
-function renderHistory() {
+function renderHistory(){
   const el=document.getElementById('history-list');
-  if(!state.games.length){el.innerHTML='<div class="empty-state"><div class="empty-icon">⚽</div><div class="empty-text">아직 경기 기록이 없어요</div></div>';return;}
+  if(!state.games||!state.games.length){el.innerHTML='<div class="empty-state"><div class="empty-icon">⚽</div><div class="empty-text">아직 경기 기록이 없어요</div></div>';return;}
   el.innerHTML=[...state.games].reverse().map(g=>{
     const bc=g.friendly?'badge-draw':g.result==='win'?'badge-win':g.result==='draw'?'badge-draw':g.result==='loss'?'badge-loss':'badge-none';
     const rt=g.friendly?'자체전':g.result==='win'?'승':g.result==='draw'?'무':g.result==='loss'?'패':'미진행';
-    const scorers=PLAYERS.filter(p=>(g.players[p.no]?.goals||0)>0).map(p=>`${p.name}(${g.players[p.no].goals})`).join(' ');
-    const absents=PLAYERS.filter(p=>g.players[p.no]?.absent).map(p=>p.name).join(', ');
-    const mom=PLAYERS.find(p=>g.players[p.no]?.mom);
-    const attCount=PLAYERS.filter(p=>g.players[p.no]?.att).length;
-    return `
-    <div class="game-card" onclick="toggleDetail('${g.id}')">
-      <div class="game-card-header">
-        <span class="game-date">${g.date} · ${g.round}회차</span>
-        <span class="game-result-badge ${bc}">${rt}</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;align-items:center;">
-        <div class="game-vs">${g.friendly ? '🤝 자체전' : `vs ${g.opponent||'상대팀'}`}</div>
-        ${g.result==='none'
-          ? `<span style="font-size:13px;color:var(--gray2);">${g.noneReason||'사유없음'}</span>`
-          : `<div class="game-score">${g.scoreUs} : ${g.scoreThem}</div>`}
-      </div>
-      <div class="game-meta">
-        ${g.venue?`<span class="game-tag">🏟 ${g.venue}</span>`:''}
-        ${g.merch?'<span class="game-tag">용병동원</span>':''}
-        ${g.friendly?'<span class="game-tag">자체전</span>':''}
-        ${g.result==='none' && g.noneReason?`<span class="game-tag">⛔ ${g.noneReason}</span>`:''}
-        <span class="game-tag">👥 ${attCount}명</span>
-        ${mom?`<span class="game-tag">⭐ ${mom.name}</span>`:''}
-      </div>
-      <div id="detail-${g.id}" style="display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--gray0);">
-        ${g.friendly && g.teamBlue  ? `<div style="font-size:12px;margin-bottom:4px;">🔵 청팀: ${g.teamBlue}</div>`:''}
-        ${g.friendly && g.teamWhite ? `<div style="font-size:12px;margin-bottom:4px;">⚪ 백팀: ${g.teamWhite}</div>`:''}
-        ${scorers?`<div style="font-size:12px;margin-bottom:4px;">⚽ ${scorers}</div>`:''}
-        ${absents?`<div style="font-size:12px;color:var(--red);margin-bottom:4px;">🚨 무단: ${absents}</div>`:''}
-        ${g.feedback?`<div style="font-size:12px;color:var(--gray3);margin-bottom:6px;line-height:1.5;">📝 ${g.feedback}</div>`:''}
-        <div style="display:flex;gap:8px;margin-top:10px;">
-          <button onclick="event.stopPropagation();editGame('${g.id}')" style="flex:1;padding:6px 14px;border-radius:8px;border:1.5px solid var(--blue);background:white;color:var(--blue);font-size:12px;font-weight:700;cursor:pointer;">✏️ 수정</button>
-          <button onclick="event.stopPropagation();deleteGame('${g.id}',this)" style="flex:1;padding:6px 14px;border-radius:8px;border:1.5px solid var(--red);background:white;color:var(--red);font-size:12px;font-weight:700;cursor:pointer;">삭제</button>
-        </div>
-      </div>
-    </div>`;
+    const scorers=PLAYERS.filter(p=>(g.players?.[p.no]?.goals||0)>0).map(p=>`${p.name}(${g.players[p.no].goals})`).join(' ');
+    const absents=PLAYERS.filter(p=>g.players?.[p.no]?.absent).map(p=>p.name).join(', ');
+    const mom=PLAYERS.find(p=>g.players?.[p.no]?.mom);
+    const attCount=PLAYERS.filter(p=>g.players?.[p.no]?.att).length;
+    return`<div class="game-card" onclick="toggleDetail('${g.id}')"><div class="game-card-header"><span class="game-date">${g.date} · ${g.round}회차</span><span class="game-result-badge ${bc}">${rt}</span></div><div style="display:flex;justify-content:space-between;align-items:center;"><div class="game-vs">${g.friendly?'🤝 자체전':`vs ${g.opponent||'상대팀'}`}</div>${g.result==='none'?`<span style="font-size:13px;color:var(--gray2);">${g.noneReason||'사유없음'}</span>`:`<div class="game-score">${g.scoreUs} : ${g.scoreThem}</div>`}</div><div class="game-meta">${g.venue?`<span class="game-tag">🏟 ${g.venue}</span>`:''} ${g.merch?'<span class="game-tag">용병동원</span>':''}<span class="game-tag">👥 ${attCount}명</span>${mom?`<span class="game-tag">⭐ ${mom.name}</span>`:''}</div><div id="detail-${g.id}" style="display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--gray0);">${scorers?`<div style="font-size:12px;margin-bottom:4px;">⚽ ${scorers}</div>`:''}${absents?`<div style="font-size:12px;color:var(--red);margin-bottom:4px;">🚨 무단: ${absents}</div>`:''}${g.feedback?`<div style="font-size:12px;color:var(--gray3);margin-bottom:6px;line-height:1.5;">📝 ${g.feedback}</div>`:''}<div style="display:flex;gap:8px;margin-top:10px;"><button onclick="event.stopPropagation();editGame('${g.id}')" style="flex:1;padding:6px 14px;border-radius:8px;border:1.5px solid var(--blue);background:white;color:var(--blue);font-size:12px;font-weight:700;cursor:pointer;">✏️ 수정</button><button onclick="event.stopPropagation();deleteGame('${g.id}',this)" style="flex:1;padding:6px 14px;border-radius:8px;border:1.5px solid var(--red);background:white;color:var(--red);font-size:12px;font-weight:700;cursor:pointer;">삭제</button></div></div></div>`;
   }).join('');
 }
+
 function toggleDetail(id){const el=document.getElementById('detail-'+id);if(el)el.style.display=el.style.display==='none'?'block':'none';}
-function deleteGame(id, btn) {
-  if (btn.dataset.confirm !== '1') {
-    btn.dataset.confirm = '1'; btn.textContent = '정말 삭제?';
-    btn.style.background = 'var(--red)'; btn.style.color = 'white';
-    setTimeout(() => {
-      if (btn.dataset.confirm) {
-        btn.dataset.confirm = ''; btn.textContent = '삭제';
-        btn.style.background = 'white'; btn.style.color = 'var(--red)';
-      }
-    }, 3000);
-    return;
-  }
-  state.games = state.games.filter(g => String(g.id) !== String(id));
-  saveState(state); renderHistory(); showToast('🗑 삭제 완료');
+window.toggleDetail=toggleDetail;
+
+async function deleteGame(id,btn){
+  if(btn.dataset.confirm!=='1'){btn.dataset.confirm='1';btn.textContent='정말 삭제?';btn.style.background='var(--red)';btn.style.color='white';setTimeout(()=>{if(btn.dataset.confirm){btn.dataset.confirm='';btn.textContent='삭제';btn.style.background='white';btn.style.color='var(--red)';}},3000);return;}
+  state.games=state.games.filter(g=>String(g.id)!==String(id));
+  await saveToFirebase();renderHistory();showToast('🗑 삭제 완료');
 }
+window.deleteGame=deleteGame;
 
 function openExportModal(){document.getElementById('export-modal').classList.add('open');}
+window.openExportModal=openExportModal;
 function closeExportModal(e){document.getElementById('export-modal').classList.remove('open');}
-function exportJSON(){const b=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`FC리버스_${state.season}_데이터.json`;a.click();showToast('📄 JSON 다운로드');}
-function exportCSV(){
-  const rows=[['회차','날짜','상대팀','구장','결과','우리득점','상대득점','출석','무단불참']];
-  state.games.forEach(g=>{
-    const att=PLAYERS.filter(p=>g.players[p.no]?.att).length;
-    const abs=PLAYERS.filter(p=>g.players[p.no]?.absent).map(p=>p.name).join('/');
-    rows.push([g.round,g.date,g.opponent||'',g.venue||'',g.result||'',g.scoreUs,g.scoreThem,att,abs]);
-  });
-  const csv=rows.map(r=>r.map(c=>`"${c}"`).join(',')).join('\n');
-  const b=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`FC리버스_${state.season}_기록.csv`;a.click();showToast('📊 CSV 다운로드');
-}
+window.closeExportModal=closeExportModal;
 function exportSummaryText(){
-  const g=state.games,nf=g.filter(x=>x.result&&x.result!=='none'&&!x.friendly);
+  const g=state.games||[],nf=g.filter(x=>x.result&&x.result!=='none'&&!x.friendly);
   const w=nf.filter(x=>x.result==='win').length,d=nf.filter(x=>x.result==='draw').length,l=nf.filter(x=>x.result==='loss').length;
   const wr=nf.length?Math.round(w/nf.length*100):0;
   const tg=g.reduce((s,x)=>s+(x.scoreUs||0),0),tc=g.reduce((s,x)=>s+(x.scoreThem||0),0);
   const text=`⚽ FC리버스 ${state.season} 시즌\n총 ${g.length}경기 · ${w}승${d}무${l}패 · 승률 ${wr}%\n득점 ${tg}골 · 실점 ${tc}골 · 득실차 ${tg>=tc?'+':''}${tg-tc}`;
   navigator.clipboard.writeText(text).then(()=>showToast('📝 클립보드 복사됨'));
 }
+window.exportSummaryText=exportSummaryText;
+
+
+// Tab event listeners (must be inside module scope)
+document.querySelectorAll('.tab[data-tab]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    switchTab(btn.dataset.tab, btn);
+  });
+});
 
 let toastTimer;
 function showToast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2500);}
