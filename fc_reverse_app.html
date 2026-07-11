@@ -160,7 +160,8 @@ input:checked+.toggle-slider::before{transform:translateX(20px);}
   <button class="tab active" data-tab="input"><span class="tab-icon">⚽</span>경기입력</button>
   <button class="tab" data-tab="rp"><span class="tab-icon">💰</span>RP입력</button>
   <button class="tab" data-tab="dashboard"><span class="tab-icon">📊</span>대시보드</button>
-  <button class="tab" data-tab="history"><span class="tab-icon">📋</span>기록</button>
+  <button class="tab" data-tab="history"><span class="tab-icon">📋</span>경기기록</button>
+  <button class="tab" data-tab="players"><span class="tab-icon">👤</span>개인상세</button>
 </div>
 
 <div id="page-input" class="page active">
@@ -313,6 +314,18 @@ input:checked+.toggle-slider::before{transform:translateX(20px);}
   <div id="history-list"></div>
 </div>
 
+<div id="page-players" class="page">
+  <div class="section-title">👤 선수 개인 스탯</div>
+  <div style="display:flex;gap:8px;margin-bottom:12px;overflow-x:auto;padding-bottom:4px;">
+    <button class="stat-sort-btn active" data-sort="no" style="padding:7px 14px;border-radius:20px;border:1.5px solid var(--sky);background:var(--sky);color:white;font-size:12px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;white-space:nowrap;">번호순</button>
+    <button class="stat-sort-btn" data-sort="att" style="padding:7px 14px;border-radius:20px;border:1.5px solid var(--gray1);background:white;color:var(--gray3);font-size:12px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;white-space:nowrap;">출석순</button>
+    <button class="stat-sort-btn" data-sort="goals" style="padding:7px 14px;border-radius:20px;border:1.5px solid var(--gray1);background:white;color:var(--gray3);font-size:12px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;white-space:nowrap;">득점순</button>
+    <button class="stat-sort-btn" data-sort="assists" style="padding:7px 14px;border-radius:20px;border:1.5px solid var(--gray1);background:white;color:var(--gray3);font-size:12px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;white-space:nowrap;">어시순</button>
+    <button class="stat-sort-btn" data-sort="rp" style="padding:7px 14px;border-radius:20px;border:1.5px solid var(--gray1);background:white;color:var(--gray3);font-size:12px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;white-space:nowrap;">RP순</button>
+  </div>
+  <div id="players-list"></div>
+</div>
+
 <div class="modal-overlay" id="export-modal" onclick="closeExportModal(event)">
   <div class="modal" onclick="event.stopPropagation()">
     <div class="modal-title">📤 데이터 내보내기</div>
@@ -397,6 +410,7 @@ function switchTab(name,el){
   if(name==='dashboard')renderDashboard();
   if(name==='history')renderHistory();
   if(name==='rp')renderRpManual();
+  if(name==='players')renderPlayers();
 }
 window.switchTab=switchTab;
 
@@ -763,6 +777,82 @@ function exportSummaryText(){
 }
 window.exportSummaryText=exportSummaryText;
 
+
+
+function renderPlayers(sortKey='no') {
+  const games = state.games || [];
+  const totalG = games.length;
+  const stats = {};
+  PLAYERS.forEach(p => {
+    stats[p.no] = { no: p.no, name: p.name, att: 0, goals: 0, assists: 0, mom: 0, absent: 0, late: 0, rp: state.rpLog?.[p.no] || 0 };
+  });
+  games.forEach(g => {
+    PLAYERS.forEach(p => {
+      const d = g.players?.[p.no];
+      if (!d) return;
+      if (d.att) stats[p.no].att++;
+      stats[p.no].goals += d.goals || 0;
+      stats[p.no].assists += d.assists || 0;
+      if (d.mom) stats[p.no].mom++;
+      if (d.absent) stats[p.no].absent++;
+      if (d.late) stats[p.no].late += d.late;
+    });
+  });
+
+  let arr = Object.values(stats);
+  if (sortKey === 'no')      arr.sort((a,b) => a.no - b.no);
+  else if (sortKey === 'att')     arr.sort((a,b) => b.att - a.att);
+  else if (sortKey === 'goals')   arr.sort((a,b) => b.goals - a.goals);
+  else if (sortKey === 'assists') arr.sort((a,b) => b.assists - a.assists);
+  else if (sortKey === 'rp')      arr.sort((a,b) => b.rp - a.rp);
+
+  const el = document.getElementById('players-list');
+  el.innerHTML = arr.map(s => {
+    const attRate = totalG ? Math.round(s.att / totalG * 100) : 0;
+    return `
+    <div style="background:white;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.06);">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <div style="background:var(--navy);color:white;font-family:'Bebas Neue',sans-serif;font-size:15px;font-weight:900;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;">${s.no}</div>
+        <div style="font-size:16px;font-weight:900;">${s.name}</div>
+        ${s.mom > 0 ? `<div style="font-size:11px;background:#FEF9EC;color:var(--gold);padding:2px 8px;border-radius:20px;font-weight:700;">⭐ MOM ${s.mom}회</div>` : ''}
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;text-align:center;">
+        <div style="background:var(--gray0);border-radius:10px;padding:8px 4px;">
+          <div style="font-size:18px;font-weight:900;font-family:'Bebas Neue',sans-serif;color:var(--sky);">${s.att}</div>
+          <div style="font-size:10px;color:var(--gray2);font-weight:500;">출석</div>
+          <div style="font-size:10px;color:var(--gray2);">${attRate}%</div>
+        </div>
+        <div style="background:var(--gray0);border-radius:10px;padding:8px 4px;">
+          <div style="font-size:18px;font-weight:900;font-family:'Bebas Neue',sans-serif;color:var(--green);">${s.goals}</div>
+          <div style="font-size:10px;color:var(--gray2);font-weight:500;">득점</div>
+        </div>
+        <div style="background:var(--gray0);border-radius:10px;padding:8px 4px;">
+          <div style="font-size:18px;font-weight:900;font-family:'Bebas Neue',sans-serif;color:var(--blue);">${s.assists}</div>
+          <div style="font-size:10px;color:var(--gray2);font-weight:500;">어시</div>
+        </div>
+        <div style="background:var(--gray0);border-radius:10px;padding:8px 4px;">
+          <div style="font-size:18px;font-weight:900;font-family:'Bebas Neue',sans-serif;color:${s.rp>=0?'var(--gold)':'var(--red)'};">${s.rp>=0?'+':''}${s.rp.toLocaleString()}</div>
+          <div style="font-size:10px;color:var(--gray2);font-weight:500;">RP</div>
+        </div>
+        <div style="background:var(--gray0);border-radius:10px;padding:8px 4px;">
+          <div style="font-size:18px;font-weight:900;font-family:'Bebas Neue',sans-serif;color:${s.absent>0?'var(--red)':'var(--gray2)'};">${s.absent}</div>
+          <div style="font-size:10px;color:var(--gray2);font-weight:500;">무단</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// 정렬 버튼 이벤트
+document.querySelectorAll('.stat-sort-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.stat-sort-btn').forEach(b => {
+      b.style.background = 'white'; b.style.color = 'var(--gray3)'; b.style.borderColor = 'var(--gray1)';
+    });
+    btn.style.background = 'var(--sky)'; btn.style.color = 'white'; btn.style.borderColor = 'var(--sky)';
+    renderPlayers(btn.dataset.sort);
+  });
+});
 
 // Tab event listeners (must be inside module scope)
 document.querySelectorAll('.tab[data-tab]').forEach(btn => {
