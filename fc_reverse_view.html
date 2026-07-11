@@ -202,12 +202,81 @@ function renderPlayers(sortKey='no') {
   const el = document.getElementById('players-list');
   el.innerHTML = arr.map(s => {
     const attRate = totalG ? Math.round(s.att / totalG * 100) : 0;
+
+    // MOM 상세
+    const momDetail = games.filter(g => g.players?.[s.no]?.mom)
+      .sort((a,b) => Number(a.round) - Number(b.round));
+    const momRows = momDetail.length
+      ? momDetail.map(r => `<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--gray0);">
+          <span style="font-size:12px;color:var(--gray3);">${r.round}회차 <span style="color:var(--gray2);font-size:11px;">${r.date||''}</span></span>
+          <span style="background:#FEF9EC;color:var(--gold);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;">⭐ MOM</span>
+        </div>`).join('')
+      : '<div style="font-size:12px;color:var(--gray2);padding:6px 0;">MOM 기록 없음</div>';
+
+    // 회차별 출석 상세
+    const attDetail = games.map(g => {
+      const d = g.players?.[s.no];
+      const attended = d?.att || false;
+      const absent = d?.absent || false;
+      return { round: g.round, date: g.date, attended, absent };
+    }).sort((a,b) => Number(a.round) - Number(b.round));
+
+    // 득점 상세
+    const goalDetail = games.filter(g => (g.players?.[s.no]?.goals || 0) > 0)
+      .sort((a,b) => Number(a.round) - Number(b.round));
+    const goalRows = goalDetail.length
+      ? goalDetail.map(r => `<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--gray0);">
+          <span style="font-size:12px;color:var(--gray3);">${r.round}회차 <span style="color:var(--gray2);font-size:11px;">${r.date||''}</span></span>
+          <span style="background:#E8FDF2;color:var(--green);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;">⚽ ${r.players?.[s.no]?.goals}골</span>
+        </div>`).join('')
+      : '<div style="font-size:12px;color:var(--gray2);padding:6px 0;">득점 기록 없음</div>';
+
+    // 어시 상세
+    const assistDetail = games.filter(g => (g.players?.[s.no]?.assists || 0) > 0)
+      .sort((a,b) => Number(a.round) - Number(b.round));
+    const assistRows = assistDetail.length
+      ? assistDetail.map(r => `<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--gray0);">
+          <span style="font-size:12px;color:var(--gray3);">${r.round}회차 <span style="color:var(--gray2);font-size:11px;">${r.date||''}</span></span>
+          <span style="background:#EEF6FF;color:var(--blue);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;">🎯 ${r.players?.[s.no]?.assists}어시</span>
+        </div>`).join('')
+      : '<div style="font-size:12px;color:var(--gray2);padding:6px 0;">어시스트 기록 없음</div>';
+
+    // RP 상세 (rpSupport 기반)
+    const rpDetail = games.filter(g => {
+      const rp = g.rpSupport?.[s.no];
+      if (!rp) return false;
+      return Object.values(rp).some(v => v > 0);
+    }).sort((a,b) => Number(a.round) - Number(b.round));
+    const rpRows = rpDetail.length
+      ? rpDetail.map(r => {
+          const rp = r.rpSupport?.[s.no] || {};
+          const items = Object.entries(rp).filter(([,v]) => v > 0).map(([k,v]) => `${k}(+${v.toLocaleString()})`).join(', ');
+          return `<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--gray0);">
+            <span style="font-size:12px;color:var(--gray3);">${r.round}회차 <span style="color:var(--gray2);font-size:11px;">${r.date||''}</span></span>
+            <span style="background:#FEF9EC;color:var(--gold);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;">💰 ${items}</span>
+          </div>`;
+        }).join('')
+      : '<div style="font-size:12px;color:var(--gray2);padding:6px 0;">RP 기록 없음</div>';
+
+        const attRows = attDetail.map(r => {
+      const badge = r.absent
+        ? `<span style="background:#FEF2F2;color:var(--red);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;">무단</span>`
+        : r.attended
+          ? `<span style="background:#E8FDF2;color:var(--green);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;">출석</span>`
+          : `<span style="background:var(--gray0);color:var(--gray2);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;">불참</span>`;
+      return `<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--gray0);">
+        <span style="font-size:12px;color:var(--gray3);">${r.round}회차 <span style="color:var(--gray2);font-size:11px;">${r.date||''}</span></span>
+        ${badge}
+      </div>`;
+    }).join('');
+
     return `
     <div style="background:white;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.06);">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;cursor:pointer;" onclick="togglePlayerDetail('pd-${s.no}')">
         <div style="background:var(--navy);color:white;font-family:'Bebas Neue',sans-serif;font-size:15px;font-weight:900;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;">${s.no}</div>
-        <div style="font-size:16px;font-weight:900;">${s.name}</div>
+        <div style="font-size:16px;font-weight:900;flex:1;">${s.name}</div>
         ${s.mom > 0 ? `<div style="font-size:11px;background:#FEF9EC;color:var(--gold);padding:2px 8px;border-radius:20px;font-weight:700;">⭐ MOM ${s.mom}회</div>` : ''}
+        <span style="font-size:16px;color:var(--gray2);">▾</span>
       </div>
       <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;text-align:center;">
         <div style="background:var(--gray0);border-radius:10px;padding:8px 4px;">
@@ -232,9 +301,57 @@ function renderPlayers(sortKey='no') {
           <div style="font-size:10px;color:var(--gray2);font-weight:500;">무단</div>
         </div>
       </div>
+      <div id="pd-${s.no}" style="display:none;margin-top:12px;padding-top:10px;border-top:1px solid var(--gray1);">
+        <!-- 탭 -->
+        <div style="display:flex;gap:0;margin-bottom:10px;border-radius:8px;overflow:hidden;border:1.5px solid var(--gray1);">
+          <button onclick="switchDetailTab('${s.no}','att')" id="dt-att-${s.no}" style="flex:1;padding:7px;border:none;background:var(--navy);color:white;font-size:11px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;">출석</button>
+          <button onclick="switchDetailTab('${s.no}','goals')" id="dt-goals-${s.no}" style="flex:1;padding:7px;border:none;background:white;color:var(--gray3);font-size:11px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;">득점</button>
+          <button onclick="switchDetailTab('${s.no}','assists')" id="dt-assists-${s.no}" style="flex:1;padding:7px;border:none;background:white;color:var(--gray3);font-size:11px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;">어시</button>
+          <button onclick="switchDetailTab('${s.no}','rp')" id="dt-rp-${s.no}" style="flex:1;padding:7px;border:none;background:white;color:var(--gray3);font-size:11px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;">RP</button>
+          <button onclick="switchDetailTab('${s.no}','mom')" id="dt-mom-${s.no}" style="flex:1;padding:7px;border:none;background:white;color:var(--gray3);font-size:11px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;">MOM</button>
+        </div>
+        <!-- 출석 상세 -->
+        <div id="dt-att-content-${s.no}">
+          ${attRows || '<div style="font-size:12px;color:var(--gray2);">경기 데이터 없음</div>'}
+        </div>
+        <!-- 득점 상세 -->
+        <div id="dt-goals-content-${s.no}" style="display:none;">
+          ${goalRows}
+        </div>
+        <!-- 어시 상세 -->
+        <div id="dt-assists-content-${s.no}" style="display:none;">
+          ${assistRows}
+        </div>
+        <!-- RP 상세 -->
+        <div id="dt-rp-content-${s.no}" style="display:none;">
+          ${rpRows}
+        </div>
+        <!-- MOM 상세 -->
+        <div id="dt-mom-content-${s.no}" style="display:none;">
+          ${momRows}
+        </div>
+      </div>
     </div>`;
   }).join('');
 }
+
+
+
+function switchDetailTab(no, tab) {
+  ['att','goals','assists','rp','mom'].forEach(t => {
+    const btn = document.getElementById(`dt-${t}-${no}`);
+    const cont = document.getElementById(`dt-${t}-content-${no}`);
+    if (btn) { btn.style.background = t===tab ? 'var(--navy)' : 'white'; btn.style.color = t===tab ? 'white' : 'var(--gray3)'; }
+    if (cont) cont.style.display = t===tab ? 'block' : 'none';
+  });
+}
+window.switchDetailTab = switchDetailTab;
+
+function togglePlayerDetail(id) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+window.togglePlayerDetail = togglePlayerDetail;
 
 document.querySelectorAll('.stat-sort-btn').forEach(btn => {
   btn.addEventListener('click', () => {
